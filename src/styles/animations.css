@@ -1,0 +1,261 @@
+.floating {
+    animation: floatIn 1.2s ease-out forwards;
+    animation-delay: var(--animation-delay, 0s);
+    animation-fill-mode: both;
+}
+
+@keyframes floatIn {
+    from {
+        transform: translateY(40px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.floating-top {
+    animation: floatInTop 1.2s ease-out forwards;
+    animation-delay: var(--animation-delay, 0s);
+    animation-fill-mode: both;
+}
+
+@keyframes floatInTop {
+    from {
+        transform: translateY(-40px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes orbit-smooth {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-orbit-smooth {
+    animation: orbit-smooth 12s cubic-bezier(0.65, 0.05, 0.36, 1) infinite;
+    transform-origin: center center;
+}
+
+@keyframes spin-smooth {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin-smooth {
+    animation: spin-smooth 20s linear infinite;
+}
+
+@keyframes yellow-circle {
+    0%,
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+
+    25% {
+        transform: translate(3px, -5px) rotate(6deg);
+    }
+
+    50% {
+        transform: translate(-4px, 3px) rotate(-5deg);
+    }
+
+    75% {
+        transform: translate(2px, 4px) rotate(3deg);
+    }
+}
+
+@keyframes blue-rect {
+    0%,
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+
+    25% {
+        transform: translate(-5px, 4px) rotate(-6deg);
+    }
+
+    50% {
+        transform: translate(5px, -4px) rotate(6deg);
+    }
+
+    75% {
+        transform: translate(-3px, 2px) rotate(-3deg);
+    }
+}
+
+@keyframes orange-rect {
+    0%,
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+
+    25% {
+        transform: translate(4px, -4px) rotate(5deg);
+    }
+
+    50% {
+        transform: translate(-4px, 3px) rotate(-5deg);
+    }
+
+    75% {
+        transform: translate(3px, 2px) rotate(3deg);
+    }
+}
+
+@keyframes orbit-reverse {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(-360deg);
+    }
+}
+
+@keyframes move-sideways {
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(30px);
+    }
+}
+
+.animate-yellow-circle {
+    animation: yellow-circle 2.8s ease-in-out infinite;
+}
+
+.animate-blue-rect {
+    animation: blue-rect 3s ease-in-out infinite;
+}
+
+.animate-orange-rect {
+    animation: orange-rect 2.6s ease-in-out infinite;
+}
+
+@keyframes red-shape {
+    0%,
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    20% {
+        transform: translate(6px, -4px) rotate(5deg);
+    }
+    40% {
+        transform: translate(10px, 3px) rotate(8deg);
+    }
+    60% {
+        transform: translate(4px, 6px) rotate(-4deg);
+    }
+    80% {
+        transform: translate(8px, -2px) rotate(6deg);
+    }
+}
+
+.animate-red-shape {
+    animation: red-shape 3.1s ease-in-out infinite;
+}
+
+@keyframes green-shape {
+    0%,
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    10% {
+        transform: translate(-5px, 4px) rotate(-3deg);
+    }
+    30% {
+        transform: translate(6px, -8px) rotate(8deg);
+    }
+    50% {
+        transform: translate(-4px, -5px) rotate(-6deg);
+    }
+    70% {
+        transform: translate(8px, 3px) rotate(5deg);
+    }
+    90% {
+        transform: translate(3px, 6px) rotate(2deg);
+    }
+}
+
+.animate-green-shape {
+    animation: green-shape 3.6s ease-in-out infinite;
+}
+
+@keyframes black-shape {
+    0%,
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    10% {
+        transform: translate(10px, -3px) rotate(8deg);
+    }
+    30% {
+        transform: translate(14px, 4px) rotate(15deg);
+    }
+    50% {
+        transform: translate(-5px, -6px) rotate(-6deg);
+    }
+    70% {
+        transform: translate(12px, 2px) rotate(10deg);
+    }
+    90% {
+        transform: translate(8px, -2px) rotate(5deg);
+    }
+}
+
+.animate-black-shape {
+    animation: black-shape 3s ease-in-out infinite;
+}
+
+@keyframes growIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.number {
+    animation: growIn 0.8s ease-out forwards;
+}
+
+.animate-blue-square {
+    animation: orbit-reverse 8s linear infinite;
+    transform-origin: center center;
+}
+
+.animate-orbit-slow {
+    animation: orbit-reverse 25s linear infinite;
+    transform-origin: center center;
+}
+
+.animate-orbit-medium {
+    animation: orbit-reverse 15s linear infinite;
+    transform-origin: center center;
+}
+
+.animate-green-circle {
+    animation: move-sideways 4s ease-in-out infinite;
+}

@@ -1,0 +1,90 @@
+@font-face {
+    font-family: 'NotoSansHebrew-Regular';
+    src: url('./NotoSansHebrew-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NotoSansHebrew-Bold';
+    src: url('./NotoSansHebrew-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NotoSansHebrew-Medium';
+    src: url('./NotoSansHebrew-Medium.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NotoSansHebrew-SemiBold';
+    src: url('./NotoSansHebrew-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ploni-bold';
+    src: url('./ploni-bold-aaa.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ploni-demibold';
+    src: url('./ploni-demibold-aaa.otf') format('opentype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ploni-medium';
+    src: url('./ploni-medium-aaa.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+button {
+    font-family: 'ploni-medium';
+    font-weight: 500;
+}
+
+.font-notoSansHebrew-regular {
+    font-family: 'NotoSansHebrew-Regular';
+    font-weight: 400;
+    font-size: 1.875vw;
+}
+
+.font-notoSansHebrew-bold {
+    font-family: 'NotoSansHebrew-Bold';
+    font-weight: 700;
+}
+
+.font-notoSansHebrew-medium {
+    font-family: 'NotoSansHebrew-Medium';
+    font-weight: 400;
+    font-size: 1.875vw;
+}
+
+.font-notoSansHebrew-semiBold {
+    font-family: 'NotoSansHebrew-SemiBold';
+    font-weight: 600;
+}
+
+.font-ploni-bold {
+    font-family: 'Ploni-Bold';
+    font-weight: 700;
+}
+
+.font-ploni-demibold {
+    font-family: 'ploni-demibold';
+    font-weight: 600;
+}
+
+.font-ploni-medium {
+    font-family: 'ploni-medium';
+    font-weight: 500;
+}

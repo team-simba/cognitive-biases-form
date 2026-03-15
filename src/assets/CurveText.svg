@@ -1,0 +1,20 @@
+<svg
+  viewBox="30 10 850 270"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    id="curve"
+    d="M 50 270 A 500 200 0 0 1 850 270"
+    fill="transparent"
+  />
+  <text
+    font-family="inherit"
+    font-weight="700"
+    font-size="7vw"
+    text-anchor="middle"
+  >
+    <textPath href="#curve" startOffset="50%">
+      לחצו על הגלגל כדי לסובב אותו
+    </textPath>
+  </text>
+</svg>

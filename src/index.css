@@ -1,0 +1,90 @@
+@import './components/Button.css';
+@import './styles/animations.css';
+@import 'tailwindcss';
+
+:root {
+    direction: rtl;
+    overflow: hidden;
+}
+
+@theme {
+    --color-primary: #104b8b;
+    --color-secondary: #5199d3;
+    --color-blue-light: #7ecaf7;
+    --color-blue-medium: #3ba3e0;
+    --color-blue-semi-strong: #4a90e2;
+    --color-blue-strong: #1b5ca0;
+    --color-blue-deep: #0069a7;
+    --color-blue-mid: #1f63ab;
+    --color-blue-dark: #0c4473;
+    --color-blue-main: #2563eb;
+    --color-orange: #f08648;
+    --color-anchor: #114f91;
+    --color-green-mid: #5ca25e;
+    --color-gray-dark: #6f6f6f;
+    --color-black-text: #1a1a1a;
+    --color-dark-navy: #132f46;
+    --color-dark-red: #aa0000;
+    --color-golden-yellow: #e5be34;
+    --color-warm-red: #a72608;
+}
+
+@layer utilities {
+    .bg-conic-blue {
+        background: conic-gradient(
+            var(--color-blue-light) 0% 46%,
+            var(--color-blue-strong) 46% 50%,
+            var(--color-blue-deep) 50% 66%,
+            var(--color-blue-medium) 66% 100%
+        );
+    }
+
+    .g-0 {
+        gap: 0.52vw;
+    }
+    .g-1 {
+        gap: 1.04vw;
+    }
+    .g-2 {
+        gap: 2.08vw;
+    }
+
+    .padding-2-5 {
+        padding: 2.6vw;
+    }
+    .padding-3 {
+        padding: 2.92vw;
+    }
+    .padding-page {
+        padding-top: 3vw;
+        padding-right: 2vw;
+    }
+}
+
+.card-shadow {
+    filter: drop-shadow(-0.4vw 0.4vw 0 var(--color-dark-navy));
+}
+
+.drop-shadow-primary {
+    filter: drop-shadow(-0.35vw 0.35vw 0 var(--color-primary));
+}
+
+.drop-shadow-dark {
+    filter: drop-shadow(-0.35vw 0.35vw 0 var(--color-blue-mid));
+}
+
+.drop-shadow-dark:hover {
+    filter: drop-shadow(-0.35vw 0.35vw 0 var(--color-primary));
+}
+
+@layer utilities {
+    .left-dynamic {
+        left: 3.29vw;
+    }
+
+    @media (min-width: 1400px) {
+        .left-dynamic {
+            left: 2.6vw;
+        }
+    }
+}
