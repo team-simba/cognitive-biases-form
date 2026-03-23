@@ -8,7 +8,7 @@ import Card from '../components/Card';
 import TitleUnderLine from '../components/TitleUnderLine';
 import { setFortuneWheel } from '../store/guessSlice';
 
-const GuessPage: React.FC = () => {
+const AnchoringWheel: React.FC = () => {
     const dispatch = useDispatch();
     const [rotation, setRotation] = useState(0);
     const [isSpinning, setIsSpinning] = useState(false);
@@ -82,4 +82,4 @@ const GuessPage: React.FC = () => {
     );
 };
 
-export default GuessPage;
+export default AnchoringWheel;

@@ -13,13 +13,13 @@ interface ChartDataPoint {
     votes: number;
 }
 
-interface CognitiveBiasViewProps {
+interface AnchoringGraphProps {
     step: 1 | 2 | 3;
     dataFor15: ChartDataPoint[];
     dataFor65: ChartDataPoint[];
 }
 
-const CognitiveBiasView: React.FC<CognitiveBiasViewProps> = ({ step, dataFor15, dataFor65 }) => {
+const AnchoringGraph: React.FC<AnchoringGraphProps> = ({ step, dataFor15, dataFor65 }) => {
     const anchorNumber = useSelector((state: RootState) => state.guessNumber.fortuneWheel);
     const userVote = useSelector((state: RootState) => state.guessNumber.europeanCountries);
 
@@ -139,4 +139,4 @@ const CognitiveBiasView: React.FC<CognitiveBiasViewProps> = ({ step, dataFor15, 
     );
 };
 
-export default CognitiveBiasView;
+export default AnchoringGraph;

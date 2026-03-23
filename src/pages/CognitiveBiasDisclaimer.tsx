@@ -5,7 +5,7 @@ import Card from '../components/Card';
 import CognitiveBiasComposition from '../components/CognitiveBiasComposition';
 import TitleSideLine from '../components/TitleSideLine';
 
-const CognitiveBias: React.FC = () => {
+const CognitiveBiasDisclaimer: React.FC = () => {
     return (
         <Background>
             <div className="flex flex-col padding-page g-1">
@@ -42,4 +42,4 @@ const CognitiveBias: React.FC = () => {
     );
 };
 
-export default CognitiveBias;
+export default CognitiveBiasDisclaimer;

@@ -7,7 +7,7 @@ import FloatingAnimation from '../components/FloatingAnimations';
 import TitleUnderLine from '../components/TitleUnderLine';
 import { RightShapes } from '../data/floating-animations';
 
-const ContinueGuessing: React.FC = () => {
+const AnchoringQuestion: React.FC = () => {
     const handleSubmit = () => {
         //TODO redux;
     };
@@ -55,4 +55,4 @@ const ContinueGuessing: React.FC = () => {
     );
 };
 
-export default ContinueGuessing;
+export default AnchoringQuestion;

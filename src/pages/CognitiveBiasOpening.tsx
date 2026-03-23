@@ -3,7 +3,7 @@ import React from 'react';
 import StartImg from '../assets/start-cognitive-bias.svg';
 import Background from '../components/Background';
 
-const StartCognitiveBias: React.FC = () => {
+const CognitiveBiasOpening: React.FC = () => {
     return (
         <Background>
             <div className="flex justify-around items-center min-h-screen">
@@ -35,4 +35,4 @@ const StartCognitiveBias: React.FC = () => {
     );
 };
 
-export default StartCognitiveBias;
+export default CognitiveBiasOpening;

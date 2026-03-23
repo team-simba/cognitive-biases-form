@@ -6,7 +6,7 @@ import ColorfulShapesFrame from '../components/ColorfulShapesFrame';
 
 import type { RootState } from '../store/store';
 
-const GuessNumberResult: React.FC = () => {
+const AnchoringWheel2: React.FC = () => {
     const fortuneWheelNumber = useSelector((state: RootState) => state.guessNumber.fortuneWheel);
 
     return (
@@ -27,4 +27,4 @@ const GuessNumberResult: React.FC = () => {
     );
 };
 
-export default GuessNumberResult;
+export default AnchoringWheel2;

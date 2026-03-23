@@ -27,11 +27,7 @@ const SlideShow: React.FC<SlideShowProps> = () => {
 
     const mystery = { yomint: 50, cominte: 20, osint: 20, noMatter: 10 };
 
-    const answers = {
-        bus: { noValue: 70, yesValue: 30 },
-        beach: { noValue: 70, yesValue: 30 },
-        smoking: { noValue: 70, yesValue: 30 },
-    };
+
 
     const dead = { bProgram: 78, aProgram: 22 };
     const save = { bProgram: 28, aProgram: 72 };
@@ -64,31 +60,35 @@ const SlideShow: React.FC<SlideShowProps> = () => {
         },
         {
             name: 'עיגון', 
+
             revealAt: 3,
             slides: [
                 { name: 'AnchoringWheel' },
                 { name: 'AnchoringWheel2' },
-                { name: 'ContinueGuessing' },
+                { name: 'AnchoringQuestion' },
                 {
-                    name: 'CognitiveBiasView',
+                    name: 'AnchoringGraph',
                     props: { dataFor15: data15, dataFor65: data65, step: 1 },
                 },
                 {
-                    name: 'CognitiveBiasView',
+                    name: 'AnchoringGraph',
                     props: { dataFor15: data15, dataFor65: data65, step: 2 },
                 },
-                { name: 'CognitiveBiasView', props: { step: 3 } },
-                { name: 'SecurityAnchoringSection', props: { step: 1 } },
-                { name: 'SecurityAnchoringSection', props: { step: 2 } },
+                { name: 'AnchoringGraph', props: { step: 3 } },
+                { name: 'AnchoringSecuritySection', props: { step: 1 } },
+                { name: 'AnchoringSecuritySection', props: { step: 2 } },
             ],
         },
         {
-            name: 'סיווג',
+            name: 'קלסיפיקציה',
             revealAt: 1,
             slides: [
-                { name: 'CognitiveBiasClassification' },
-                { name: 'WarContext' },
-                { name: 'WarContextsAnswer' },
+                { name: 'ClassificationQuetion' },
+                { name: 'ClassificationExplanation' },
+                {
+                    name: 'ResultsGraph2',
+                    props: { data: data },
+                },
                 { name: 'OctoberAnimation' },
                 { name: 'ClassificationInContextOctober' },
             ],
@@ -97,11 +97,15 @@ const SlideShow: React.FC<SlideShowProps> = () => {
             name: 'זמינות',
             revealAt: 2,
             slides: [
-                { name: 'QuestionsSection' },
-                { name: 'Results', props: { answers } },
                 { name: 'CognitiveBiasAvailability' },
                 { name: 'Availability', props: { step: 1 } },
                 { name: 'Availability', props: { step: 2 } },
+            ],
+        },
+        {
+            name: 'תוכן',
+            revealAt: 2,
+            slides: [
                 { name: 'SeeYouAgain' },
                 { name: 'LittleDifferently' },
                 {
@@ -112,23 +116,15 @@ const SlideShow: React.FC<SlideShowProps> = () => {
             ],
         },
         {
-            name: 'לוגיקה',
+            name: 'לוגיקה פורמלית',
             revealAt: 2,
             slides: [
-                { name: 'LittleWarmUP' },
                 { name: 'CognitiveBiasLogic' },
                 { name: 'FirstFormalLogicQuestion' },
                 { name: 'ResultGraph', props: { percentage: 80 } },
                 { name: 'CognitiveBiasLogic2' },
-                { name: 'MovieInCinemaQuestion' },
-                { name: 'MovieInCinemaResult' },
                 { name: 'OctoberAnimation' },
                 { name: 'LogicInContextOctober' },
-                { name: 'MoreTilt' },
-                {
-                    name: 'ResultsGraph2',
-                    props: { data: data },
-                },
             ],
         },
         {

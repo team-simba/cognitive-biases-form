@@ -1,6 +1,6 @@
 import SubjectMainScreen from '../components/SubjectMainScreen';
 
-const CognitiveBiasClassification: React.FC = () => {
+const ClassificationExplanation: React.FC = () => {
     return (
         <SubjectMainScreen
             titleContent="הטייה קוגניטיבית מספר 5 - קלסיפיקציה"
@@ -23,4 +23,4 @@ const CognitiveBiasClassification: React.FC = () => {
     );
 };
 
-export default CognitiveBiasClassification;
+export default ClassificationExplanation;

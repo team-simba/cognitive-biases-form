@@ -7,7 +7,7 @@ import HorizontalDrag from '../components/HorizontalDrag';
 import TitleUnderLine from '../components/TitleUnderLine';
 import { LeftShapes } from '../data/floating-animations';
 
-const MoreTilt: React.FC = () => {
+const ClassificationQuetion: React.FC = () => {
     const handleSubmit = () => {
         //TODO redux;
     };
@@ -55,4 +55,4 @@ const MoreTilt: React.FC = () => {
         </Background>
     );
 };
-export default MoreTilt;
+export default ClassificationQuetion;

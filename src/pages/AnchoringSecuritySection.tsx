@@ -3,7 +3,7 @@ import SecurityContext from '../components/SecurityContext';
 
 import type { StepComponent } from '../types/step';
 
-const SecurityAnchoringSection: React.FC<StepComponent> = ({ step }) => {
+const AnchoringSecuritySection: React.FC<StepComponent> = ({ step }) => {
     return (
         <>
             {step === 1 && <AnimatedDiamondText text="ובהקשר בטחוני" />}
@@ -30,4 +30,4 @@ const SecurityAnchoringSection: React.FC<StepComponent> = ({ step }) => {
     );
 };
 
-export default SecurityAnchoringSection;
+export default AnchoringSecuritySection;
