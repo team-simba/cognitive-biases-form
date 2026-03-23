@@ -8,12 +8,19 @@ interface ComponentItem {
     props?: Record<string, unknown>;
 }
 
+interface Subject {
+    name: string;
+    revealAt?: number; // slide index within subject that reveals the name in nav; omit to always show name
+    slides: ComponentItem[];
+}
+
 interface SlideShowProps {
     components: ComponentItem[];
 }
 
 const SlideShow: React.FC<SlideShowProps> = () => {
-    const [index, setIndex] = useState<number>(0);
+    const [flatIndex, setFlatIndex] = useState<number>(0);
+    const [maxFlatIndex, setMaxFlatIndex] = useState<number>(0);
 
     const cigar = { yesValue: 60, noValue: 40 };
     const elephant = { yesValue: 80, noValue: 20 };
@@ -45,99 +52,213 @@ const SlideShow: React.FC<SlideShowProps> = () => {
     const data15 = createData(35);
     const data65 = createData(45);
 
-    const slides = [
-        { name: 'StartCognitiveBias', screenNum: '1' },
-        { name: 'CognitiveBias', screenNum: '4' },
-        { name: 'GuessPage', screenNum: '6' },
-        { name: 'GuessNumberResult', screenNum: '7' },
-        { name: 'ContinueGuessing', screenNum: '9' },
+    const subjects: Subject[] = [
         {
-            name: 'CognitiveBiasView',
-            props: { dataFor15: data15, dataFor65: data65, step: 1 },
-            screenNum: '10',
+            name: 'הטיות קוגניטיביות',
+            revealAt: 0,
+            slides: [
+                { name: 'CognitiveBiasOpening' },
+                //video
+                { name: 'CognitiveBiasDisclaimer' },
+            ],
         },
         {
-            name: 'CognitiveBiasView',
-            props: { dataFor15: data15, dataFor65: data65, step: 2 },
-            screenNum: '67',
+            name: 'עיגון', 
+            revealAt: 3,
+            slides: [
+                { name: 'AnchoringWheel' },
+                { name: 'AnchoringWheel2' },
+                { name: 'ContinueGuessing' },
+                {
+                    name: 'CognitiveBiasView',
+                    props: { dataFor15: data15, dataFor65: data65, step: 1 },
+                },
+                {
+                    name: 'CognitiveBiasView',
+                    props: { dataFor15: data15, dataFor65: data65, step: 2 },
+                },
+                { name: 'CognitiveBiasView', props: { step: 3 } },
+                { name: 'SecurityAnchoringSection', props: { step: 1 } },
+                { name: 'SecurityAnchoringSection', props: { step: 2 } },
+            ],
         },
-        { name: 'CognitiveBiasView', props: { step: 3 }, screenNum: '68' },
-        { name: 'SecurityAnchoringSection', props: { step: 1 }, screenNum: '12' },
-        { name: 'SecurityAnchoringSection', props: { step: 2 }, screenNum: '12' },
-        { name: 'QuestionsSection', screenNum: '13' },
-        { name: 'Results', props: { answers }, screenNum: '69' },
-        { name: 'CognitiveBiasAvailability', screenNum: '15' },
-        { name: 'Availability', props: { step: 1 }, screenNum: '19ג' },
-        { name: 'Availability', props: { step: 2 }, screenNum: '19ג' },
-        { name: 'SeeYouAgain', screenNum: '20' },
-        { name: 'LittleDifferently', screenNum: '21' },
         {
-            name: 'ContentCognitiveBias',
-            props: { elephant: elephant, cigar: cigar },
-            screenNum: '24',
+            name: 'סיווג',
+            revealAt: 1,
+            slides: [
+                { name: 'CognitiveBiasClassification' },
+                { name: 'WarContext' },
+                { name: 'WarContextsAnswer' },
+                { name: 'OctoberAnimation' },
+                { name: 'ClassificationInContextOctober' },
+            ],
         },
-        { name: 'ContentCognitiveBiasSummary', screenNum: '25' },
-        { name: 'LittleWarmUP', screenNum: '26' },
-        { name: 'CognitiveBiasLogic', screenNum: '28' },
-        { name: 'FirstFormalLogicQuestion', screenNum: '29' },
-        { name: 'ResultGraph', props: { percentage: 80 }, screenNum: '30' },
-        { name: 'CognitiveBiasLogic2', screenNum: '31' },
-        { name: 'MovieInCinemaQuestion', screenNum: '32' },
-        { name: 'MovieInCinemaResult', screenNum: '33' },
-        { name: 'OctoberAnimation', screenNum: '19' },
-        { name: 'LogicInContextOctober', screenNum: '35' },
-        { name: 'MoreTilt', screenNum: '36' },
         {
-            name: 'ResultsGraph2',
-            props: { data: data },
-            screenNum: '37',
+            name: 'זמינות',
+            revealAt: 2,
+            slides: [
+                { name: 'QuestionsSection' },
+                { name: 'Results', props: { answers } },
+                { name: 'CognitiveBiasAvailability' },
+                { name: 'Availability', props: { step: 1 } },
+                { name: 'Availability', props: { step: 2 } },
+                { name: 'SeeYouAgain' },
+                { name: 'LittleDifferently' },
+                {
+                    name: 'ContentCognitiveBias',
+                    props: { elephant: elephant, cigar: cigar },
+                },
+                { name: 'ContentCognitiveBiasSummary' },
+            ],
         },
-        { name: 'CognitiveBiasClassification', screenNum: '38' },
-        { name: 'WarContext', screenNum: '40' },
-        { name: 'WarContextsAnswer', screenNum: '41' },
-        { name: 'OctoberAnimation', screenNum: '42' },
-        { name: 'ClassificationInContextOctober', screenNum: '43' },
-        { name: 'PrimeMinister', screenNum: '44' },
-        { name: 'MysteryBias', props: { mystery: mystery }, screenNum: '45' },
-        { name: 'ConfirmationBiasAns', props: { step: 1 }, screenNum: '46' },
-        { name: 'ConfirmationBiasAns', props: { step: 2 }, screenNum: '47' },
-        { name: 'ConfirmationBias', screenNum: '48' },
-        { name: 'OctoberAnimation', screenNum: '19' },
-        { name: 'Conception', screenNum: '71' },
-        { name: 'DecisionMaking', screenNum: '50' },
-        { name: 'PrimeMinisterDisease', screenNum: '51' },
-        { name: 'TryAgain', screenNum: '52' },
-        { name: 'WhatHappenedHere', props: { dead: dead, save: save }, screenNum: '53' },
-        { name: 'WhatHappenedHereSummary', props: { summary: summary }, screenNum: '54' },
-        { name: 'OctoberContext', props: { step: 1 }, screenNum: '19' },
-        { name: 'OctoberContext', props: { step: 2 }, screenNum: '55' },
-        { name: 'IntermediateMessage', screenNum: '58' },
-        { name: 'EndPage', screenNum: '60' },
+        {
+            name: 'לוגיקה',
+            revealAt: 2,
+            slides: [
+                { name: 'LittleWarmUP' },
+                { name: 'CognitiveBiasLogic' },
+                { name: 'FirstFormalLogicQuestion' },
+                { name: 'ResultGraph', props: { percentage: 80 } },
+                { name: 'CognitiveBiasLogic2' },
+                { name: 'MovieInCinemaQuestion' },
+                { name: 'MovieInCinemaResult' },
+                { name: 'OctoberAnimation' },
+                { name: 'LogicInContextOctober' },
+                { name: 'MoreTilt' },
+                {
+                    name: 'ResultsGraph2',
+                    props: { data: data },
+                },
+            ],
+        },
+        {
+            name: 'אישוש',
+            revealAt: 0,
+            slides: [
+                { name: 'PrimeMinister' },
+                { name: 'MysteryBias', props: { mystery: mystery } },
+                { name: 'ConfirmationBiasAns', props: { step: 1 } },
+                { name: 'ConfirmationBiasAns', props: { step: 2 } },
+                { name: 'ConfirmationBias' },
+                { name: 'OctoberAnimation' },
+                { name: 'Conception' },
+            ],
+        },
+        {
+            name: 'קבלת החלטות',
+            revealAt: 0,
+            slides: [
+                { name: 'DecisionMaking' },
+                { name: 'PrimeMinisterDisease' },
+                { name: 'TryAgain' },
+                { name: 'WhatHappenedHere', props: { dead: dead, save: save } },
+                { name: 'WhatHappenedHereSummary', props: { summary: summary } },
+                { name: 'OctoberContext', props: { step: 1 } },
+                { name: 'OctoberContext', props: { step: 2 } },
+            ],
+        },
+        {
+            name: 'סיום',
+            slides: [
+                { name: 'IntermediateMessage' },
+                { name: 'EndPage' },
+            ],
+        },
     ];
+
+    const totalSlides = subjects.reduce((sum, s) => sum + s.slides.length, 0);
+
+    // Derive subjectIndex and slideIndex from flatIndex
+    let subjectIndex = 0;
+    let slideIndex = flatIndex;
+    for (let i = 0; i < subjects.length; i++) {
+        if (slideIndex < subjects[i].slides.length) {
+            subjectIndex = i;
+            break;
+        }
+        slideIndex -= subjects[i].slides.length;
+    }
+
+    // Update max reached position
+    if (flatIndex > maxFlatIndex) {
+        setMaxFlatIndex(flatIndex);
+    }
+
+    // Derive visited and revealed subjects from maxFlatIndex
+    const visitedSubjects = new Set<number>();
+    const revealedSubjects = new Set<number>();
+    let offset = 0;
+    for (let i = 0; i < subjects.length; i++) {
+        const subjectSlideCount = subjects[i].slides.length;
+        if (maxFlatIndex >= offset) {
+            visitedSubjects.add(i);
+        }
+        if (subjects[i].revealAt == null || maxFlatIndex >= offset + subjects[i].revealAt!) {
+            revealedSubjects.add(i);
+        }
+        offset += subjectSlideCount;
+    }
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === 'Enter') {
-                setIndex((prev) => (prev + 1 < slides.length ? prev + 1 : 0));
+                setFlatIndex((prev) => (prev + 1 < totalSlides ? prev + 1 : 0));
             }
         };
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [slides.length]);
+    }, [totalSlides]);
 
-    const CurrentComponent = lazy(() => import(`../pages/${slides[index].name}`));
+    const currentSlide = subjects[subjectIndex].slides[slideIndex];
+    const CurrentComponent = lazy(() => import(`../pages/${currentSlide.name}`));
+    const currentProps = currentSlide.props || {};
 
-    const currentProps = slides[index].props || {};
+    const handleSubjectClick = (index: number) => {
+        let offset = 0;
+        for (let i = 0; i < index; i++) {
+            offset += subjects[i].slides.length;
+        }
+        setFlatIndex(offset);
+    };
 
     return (
         <Provider store={store}>
-            <div className="w-full h-screen flex items-center justify-center bg-gray-100">
-                <Suspense fallback={<div className="text-gray-500">טוען...</div>}>
-                    <div className="w-full h-full flex items-center justify-center transition-all duration-300">
-                        <CurrentComponent {...currentProps} />
-                    </div>
-                </Suspense>
+            <div className="w-full h-screen flex flex-col bg-gray-100">
+                <nav className="flex gap-2 p-2 bg-white shadow-sm z-20" dir="rtl">
+                    {subjects.map((subject, i) => {
+                        const isVisited = visitedSubjects.has(i);
+                        const isRevealed = revealedSubjects.has(i);
+                        const isCurrent = i === subjectIndex;
+
+                        return (
+                            <button
+                                key={i}
+                                disabled={!isVisited}
+                                onClick={(e) => {
+                                    handleSubjectClick(i);
+                                    (e.target as HTMLElement).blur();
+                                }}
+                                className={`px-3 py-1 rounded text-sm transition-colors ${
+                                    !isVisited
+                                        ? 'bg-gray-100 text-gray-300 cursor-not-allowed'
+                                        : isCurrent
+                                          ? 'bg-blue-500 text-white cursor-pointer'
+                                          : 'bg-gray-200 text-gray-700 hover:bg-gray-300 cursor-pointer'
+                                }`}
+                            >
+                                {isRevealed ? subject.name : `הטיה מספר ${i}`}
+                            </button>
+                        );
+                    })}
+                </nav>
+                <div className="flex-1 flex items-center justify-center">
+                    <Suspense fallback={<div className="text-gray-500">טוען...</div>}>
+                        <div className="w-full h-full flex items-center justify-center transition-all duration-300">
+                            <CurrentComponent {...currentProps} />
+                        </div>
+                    </Suspense>
+                </div>
             </div>
         </Provider>
     );

@@ -4,7 +4,7 @@ import SlideShow from './components/SlideShow';
 function App() {
     return (
         <>
-            <SlideShow />
+            <SlideShow components={[]} />
         </>
     );
 }
