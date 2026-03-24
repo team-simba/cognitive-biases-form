@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Provider, useSelector } from 'react-redux';
 
 import DevStateViewer from './DevStateViewer';
@@ -217,7 +217,16 @@ const SlideShowInner: React.FC = () => {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [totalSlides, isLocked]);
 
-    const CurrentComponent = lazy(() => import(`../pages/${currentSlide.name}`));
+    const [CurrentComponent, setCurrentComponent] = useState<React.ComponentType<any> | null>(null);
+
+    useEffect(() => {
+        let cancelled = false;
+        import(`../pages/${currentSlide.name}`).then((mod) => {
+            if (!cancelled) setCurrentComponent(() => mod.default);
+        });
+        return () => { cancelled = true; };
+    }, [currentSlide.name]);
+
     const currentProps = currentSlide.props || {};
 
     const handleSubjectClick = (index: number) => {
@@ -262,11 +271,9 @@ const SlideShowInner: React.FC = () => {
                     })}
                 </nav>
                 <div className="flex-1 flex items-center justify-center">
-                    <Suspense fallback={<div className="text-gray-500">טוען...</div>}>
-                        <div className="w-full h-full flex items-center justify-center transition-all duration-300">
-                            <CurrentComponent {...currentProps} />
-                        </div>
-                    </Suspense>
+                    <div className="w-full h-full flex items-center justify-center transition-all duration-300">
+                        {CurrentComponent && <CurrentComponent {...currentProps} />}
+                    </div>
                 </div>
             </div>
         </>
