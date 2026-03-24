@@ -1,5 +1,3 @@
-import { useSelector } from 'react-redux';
-
 import Background from '../components/Background';
 import Card from '../components/Card';
 import RightSmallCircleAnimation from '../components/RightSmallCircleAnimation';
@@ -7,7 +5,6 @@ import TitleSideLine from '../components/TitleSideLine';
 import VotingChart from '../components/VotingChart/VotingChart';
 import { buildMysteryVotesData } from '../data/information-source';
 
-import type { RootState } from '../store/store';
 import type { MysteryValues, VoteItem } from '../types/vote';
 
 interface MysteryBiasProps {
@@ -15,8 +12,7 @@ interface MysteryBiasProps {
 }
 
 const MysteryBias: React.FC<MysteryBiasProps> = ({ mystery }) => {
-    const myVote = useSelector((state: RootState) => state.guessNumber.expectedAttack);
-    const votes: VoteItem[] = buildMysteryVotesData(mystery, myVote);
+    const votes: VoteItem[] = buildMysteryVotesData(mystery, '');
 
     return (
         <Background>

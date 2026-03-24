@@ -1,11 +1,7 @@
-import { useSelector } from 'react-redux';
-
 import Background from '../components/Background';
 import Card from '../components/Card';
 import CognitiveBiasChart from '../components/CognitiveBiasChart';
 import TitleUnderLine from '../components/TitleUnderLine';
-
-import type { RootState } from '../store/store';
 
 interface ChartDataPoint {
     number: number;
@@ -13,7 +9,7 @@ interface ChartDataPoint {
 }
 
 const ResultsGraph2: React.FC<ChartDataPoint[]> = ({ data }) => {
-    const yourVote = useSelector((state: RootState) => state.guessNumber.plumber);
+    const yourVote = null;
     return (
         <Background>
             <div className="flex flex-col padding-page g-1">

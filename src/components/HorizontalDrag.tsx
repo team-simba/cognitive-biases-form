@@ -1,12 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
 
 import DragRectangle from '../assets/ImagesForMoreTilt/drag-rectangle.svg';
-import { setPlumber } from '../store/guessSlice';
 
 const HorizontalDrag: React.FC = () => {
-    const dispatch = useDispatch();
-
     const [percent, setPercent] = useState<number>(0);
     const [positionVW, setPositionVW] = useState<number>(10);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -54,7 +50,6 @@ const HorizontalDrag: React.FC = () => {
             ((positionVW - MIN_POSITION_VW) / (MAX_POSITION_VW - MIN_POSITION_VW)) * 100
         );
         setPercent(newPercent);
-        dispatch(setPlumber(percent));
     }, [positionVW]);
 
     return (

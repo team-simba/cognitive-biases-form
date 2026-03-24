@@ -1,12 +1,9 @@
-import { useSelector } from 'react-redux';
-
 import Background from '../components/Background';
 import Card from '../components/Card';
 import TitleUnderLine from '../components/TitleUnderLine';
 import VotingChart from '../components/VotingChart/VotingChart';
 import { buildCigarElephantVotesData } from '../data/cigar-elephent-votes';
 
-import type { RootState } from '../store/store';
 import type { ResultsGrafValues, VoteItem } from '../types/vote';
 
 interface VotingChartProps {
@@ -15,11 +12,9 @@ interface VotingChartProps {
 }
 
 const ContentCognitiveBias: React.FC<VotingChartProps> = ({ elephant, cigar }) => {
-    const elephantAnswer = useSelector((state: RootState) => state.answers.elephant);
-    const cigarAnswer = useSelector((state: RootState) => state.answers.cigar);
     const votes: VoteItem[] = buildCigarElephantVotesData(
-        { ...elephant, my: elephantAnswer },
-        { ...cigar, my: cigarAnswer }
+        { ...elephant, my: '' },
+        { ...cigar, my: '' }
     );
 
     return (

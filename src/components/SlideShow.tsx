@@ -1,11 +1,15 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 
+import DevStateViewer from './DevStateViewer';
 import { store } from '../store/store';
+
+import type { RootState } from '../store/store';
 
 interface ComponentItem {
     name: string;
     props?: Record<string, unknown>;
+    requiresAnswer?: keyof RootState['userAnswers'];
 }
 
 interface Subject {
@@ -18,16 +22,16 @@ interface SlideShowProps {
     components: ComponentItem[];
 }
 
-const SlideShow: React.FC<SlideShowProps> = () => {
+const SlideShowInner: React.FC = () => {
     const [flatIndex, setFlatIndex] = useState<number>(0);
     const [maxFlatIndex, setMaxFlatIndex] = useState<number>(0);
+
+    const userAnswers = useSelector((state: RootState) => state.userAnswers);
 
     const cigar = { yesValue: 60, noValue: 40 };
     const elephant = { yesValue: 80, noValue: 20 };
 
     const mystery = { yomint: 50, cominte: 20, osint: 20, noMatter: 10 };
-
-
 
     const dead = { bProgram: 78, aProgram: 22 };
     const save = { bProgram: 28, aProgram: 72 };
@@ -59,13 +63,13 @@ const SlideShow: React.FC<SlideShowProps> = () => {
             ],
         },
         {
-            name: 'עיגון', 
+            name: 'עיגון',
 
             revealAt: 3,
             slides: [
                 { name: 'AnchoringWheel' },
                 { name: 'AnchoringWheel2' },
-                { name: 'AnchoringQuestion' },
+                { name: 'AnchoringQuestion', requiresAnswer: 'europeanCountries' },
                 {
                     name: 'AnchoringGraph',
                     props: { dataFor15: data15, dataFor65: data65, step: 1 },
@@ -195,48 +199,57 @@ const SlideShow: React.FC<SlideShowProps> = () => {
         offset += subjectSlideCount;
     }
 
+    const currentSlide = subjects[subjectIndex].slides[slideIndex];
+    const isLocked = currentSlide.requiresAnswer != null
+        && userAnswers[currentSlide.requiresAnswer] === null;
+
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === 'Enter') {
-                setFlatIndex((prev) => (prev + 1 < totalSlides ? prev + 1 : 0));
+            if (isLocked) return;
+            if (e.key === 'ArrowRight') {
+                setFlatIndex((prev) => (prev > 0 ? prev - 1 : prev));
+            } else if (e.key === 'ArrowLeft' || e.key === 'Enter') {
+                setFlatIndex((prev) => (prev + 1 < totalSlides ? prev + 1 : prev));
             }
         };
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [totalSlides]);
+    }, [totalSlides, isLocked]);
 
-    const currentSlide = subjects[subjectIndex].slides[slideIndex];
     const CurrentComponent = lazy(() => import(`../pages/${currentSlide.name}`));
     const currentProps = currentSlide.props || {};
 
     const handleSubjectClick = (index: number) => {
-        let offset = 0;
+        if (isLocked) return;
+        let clickOffset = 0;
         for (let i = 0; i < index; i++) {
-            offset += subjects[i].slides.length;
+            clickOffset += subjects[i].slides.length;
         }
-        setFlatIndex(offset);
+        setFlatIndex(clickOffset);
     };
 
     return (
-        <Provider store={store}>
+        <>
+            <DevStateViewer />
             <div className="w-full h-screen flex flex-col bg-gray-100">
                 <nav className="flex gap-2 p-2 bg-white shadow-sm z-20" dir="rtl">
                     {subjects.map((subject, i) => {
                         const isVisited = visitedSubjects.has(i);
                         const isRevealed = revealedSubjects.has(i);
                         const isCurrent = i === subjectIndex;
+                        const isDisabled = !isVisited || isLocked;
 
                         return (
                             <button
                                 key={i}
-                                disabled={!isVisited}
+                                disabled={isDisabled}
                                 onClick={(e) => {
                                     handleSubjectClick(i);
                                     (e.target as HTMLElement).blur();
                                 }}
                                 className={`px-3 py-1 rounded text-sm transition-colors ${
-                                    !isVisited
+                                    isDisabled
                                         ? 'bg-gray-100 text-gray-300 cursor-not-allowed'
                                         : isCurrent
                                           ? 'bg-blue-500 text-white cursor-pointer'
@@ -256,6 +269,14 @@ const SlideShow: React.FC<SlideShowProps> = () => {
                     </Suspense>
                 </div>
             </div>
+        </>
+    );
+};
+
+const SlideShow: React.FC<SlideShowProps> = () => {
+    return (
+        <Provider store={store}>
+            <SlideShowInner />
         </Provider>
     );
 };

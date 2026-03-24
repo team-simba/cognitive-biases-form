@@ -7,7 +7,7 @@ import ColorfulShapesFrame from '../components/ColorfulShapesFrame';
 import type { RootState } from '../store/store';
 
 const AnchoringWheel2: React.FC = () => {
-    const fortuneWheelNumber = useSelector((state: RootState) => state.guessNumber.fortuneWheel);
+    const fortuneWheelNumber = useSelector((state: RootState) => state.userAnswers.fortuneWheel);
 
     return (
         <Background>

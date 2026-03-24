@@ -1,12 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import answersSlice from './answersSlice';
-import guessNumberReducer from './guessSlice';
+import userAnswersReducer from './userAnswersSlice';
 
 export const store = configureStore({
     reducer: {
-        answers: answersSlice,
-        guessNumber: guessNumberReducer,
+        userAnswers: userAnswersReducer,
     },
 });
 

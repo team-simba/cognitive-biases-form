@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import Background from './Background';
 import Button from './Button';
@@ -8,9 +7,6 @@ import TitleSideLine from './TitleSideLine';
 import StaticBackground from '../assets/LeftShapes/disease-decision.svg';
 import FloatingAnimation from '../components/FloatingAnimations';
 import { LeftShapes } from '../data/floating-animations';
-import { setPlanVotes } from '../store/answersSlice';
-
-import type { RootState } from '../store/store';
 
 interface DiseaseDecisionProps {
     title: string;
@@ -19,8 +15,6 @@ interface DiseaseDecisionProps {
 }
 
 const DiseaseDecision: React.FC<DiseaseDecisionProps> = ({ title, planA, planB }) => {
-    const planVotes = useSelector((state: RootState) => state.answers.planVotes);
-    const dispatch = useDispatch();
     const [choice, setChoice] = useState<string>('');
     const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -31,7 +25,6 @@ const DiseaseDecision: React.FC<DiseaseDecisionProps> = ({ title, planA, planB }
     const handleSubmit = () => {
         if (!choice || isSubmitted) return;
         setIsSubmitted(true);
-        dispatch(setPlanVotes([...planVotes, choice]));
     };
 
     return (

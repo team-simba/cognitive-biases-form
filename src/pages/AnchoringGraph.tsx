@@ -20,8 +20,8 @@ interface AnchoringGraphProps {
 }
 
 const AnchoringGraph: React.FC<AnchoringGraphProps> = ({ step, dataFor15, dataFor65 }) => {
-    const anchorNumber = useSelector((state: RootState) => state.guessNumber.fortuneWheel);
-    const userVote = useSelector((state: RootState) => state.guessNumber.europeanCountries);
+    const anchorNumber = useSelector((state: RootState) => state.userAnswers.fortuneWheel);
+    const userVote = useSelector((state: RootState) => state.userAnswers.europeanCountries);
 
     const config = {
         15: { data: dataFor15, majorityEstimate: 25, color: 'blue' },

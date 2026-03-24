@@ -1,12 +1,10 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 
 import Button from './Button';
 import LeftSmallCircleAnimation from './LeftSmallCircleAnimation';
 import Background from '../components/Background';
 import FormalLogicCard from '../components/FormalLogicCard';
 import TitleSideLine from '../components/TitleSideLine';
-import { setEvenPunctuation, setMovieInCinema } from '../store/answersSlice';
 
 interface FormalLogicProps {
     intro: string;
@@ -21,7 +19,6 @@ const FormalLogicQuestion: React.FC<FormalLogicProps> = ({
     cardsFontWeight,
     legality,
 }) => {
-    const dispatch = useDispatch();
     const [answers, setAnswers] = useState<Array<string>>([]);
 
     const handleSelect = (choice: string) => {
@@ -36,11 +33,6 @@ const FormalLogicQuestion: React.FC<FormalLogicProps> = ({
 
     const handleSubmit = () => {
         if (!answers.length) return;
-        const targetAction = answers.every((a) => a.length === 1)
-            ? setEvenPunctuation
-            : setMovieInCinema;
-
-        dispatch(targetAction(answers));
     };
 
     return (

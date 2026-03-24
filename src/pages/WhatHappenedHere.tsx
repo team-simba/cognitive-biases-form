@@ -1,12 +1,9 @@
-import { useSelector } from 'react-redux';
-
 import Background from '../components/Background';
 import Card from '../components/Card';
 import TitleSideLine from '../components/TitleSideLine';
 import VotingChart from '../components/VotingChart/VotingChart';
 import { buildDeadSaveVotesData } from '../data/dead-save-votes';
 
-import type { RootState } from '../store/store';
 import type { DeadSaveValues, VoteItem } from '../types/vote';
 
 interface WhatHappenedHereProps {
@@ -15,8 +12,7 @@ interface WhatHappenedHereProps {
 }
 
 const WhatHappenedHere: React.FC<WhatHappenedHereProps> = ({ dead, save }) => {
-    const myVotes = useSelector((state: RootState) => state.answers.planVotes);
-    const votesGroup: VoteItem[][] = buildDeadSaveVotesData(dead, save, myVotes);
+    const votesGroup: VoteItem[][] = buildDeadSaveVotesData(dead, save, []);
 
     return (
         <Background>

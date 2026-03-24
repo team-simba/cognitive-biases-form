@@ -1,3 +1,6 @@
+import { useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
+
 import StaticBackground from '../assets/RightShapes/static.svg';
 import AnchorGraphics from '../components/AnchorGraphics';
 import Background from '../components/Background';
@@ -6,16 +9,27 @@ import Card from '../components/Card';
 import FloatingAnimation from '../components/FloatingAnimations';
 import TitleUnderLine from '../components/TitleUnderLine';
 import { RightShapes } from '../data/floating-animations';
+import { setEuropeanCountries } from '../store/userAnswersSlice';
 
 const AnchoringQuestion: React.FC = () => {
+    const dispatch = useDispatch();
+    const dragValue = useRef<number | null>(null);
+    const [hasDragged, setHasDragged] = useState(false);
+
+    const handleValueChange = (value: number) => {
+        dragValue.current = value;
+        if (!hasDragged) setHasDragged(true);
+    };
+
     const handleSubmit = () => {
-        //TODO redux;
+        if (dragValue.current === null) return;
+        dispatch(setEuropeanCountries(dragValue.current));
     };
 
     return (
         <Background>
             <div className="relative min-h-screen">
-                <AnchorGraphics />
+                <AnchorGraphics onValueChange={handleValueChange} />
                 <div className="flex flex-col padding-page g-1">
                     <TitleUnderLine text="ממשיכים לנחש" />
                     <Card
@@ -39,7 +53,7 @@ const AnchoringQuestion: React.FC = () => {
                     <Button
                         marked={false}
                         content="הגשה"
-                        inputProvided={true}
+                        inputProvided={hasDragged}
                         onClick={handleSubmit}
                         className="shape-angled-top font-medium text-[1.67vw]"
                     />

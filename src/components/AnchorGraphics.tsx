@@ -1,13 +1,13 @@
 import { MouseEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
 
 import AnchorSvg from '../assets/ImagesForContinueGuessing/anchor-image.svg';
 import DragRectangle from '../assets/ImagesForContinueGuessing/drag-rectangle.svg';
-import { setEuropeanCountries } from '../store/guessSlice';
 
-const AnchorDrag: React.FC = () => {
-    const dispatch = useDispatch();
+interface AnchorDragProps {
+    onValueChange?: (value: number) => void;
+}
 
+const AnchorDrag: React.FC<AnchorDragProps> = ({ onValueChange }) => {
     const initialPosition = useMemo(() => {
         const vh = window.innerHeight;
         return Math.min(570, vh * 0.6);
@@ -18,12 +18,14 @@ const AnchorDrag: React.FC = () => {
     const [heightPercent, setHeightPercent] = useState<number>(0);
     const [anchorPosition, setAnchorPosition] = useState<number>(initialPosition);
     const [isDragging, setIsDragging] = useState(false);
+    const hasDragged = useRef(false);
 
     const TOP_POSITION_PX = 100;
     const BOTTOM_POSITION_PX = initialPosition;
 
     const handleMouseDown = useCallback((event: MouseEvent) => {
         event.preventDefault();
+        hasDragged.current = true;
         setIsDragging(true);
     }, []);
 
@@ -51,8 +53,10 @@ const AnchorDrag: React.FC = () => {
 
     useEffect(() => {
         setHeightPercent(newHeightPercent);
-        dispatch(setEuropeanCountries(newHeightPercent));
-    }, [newHeightPercent, dispatch]);
+        if (hasDragged.current && onValueChange) {
+            onValueChange(newHeightPercent);
+        }
+    }, [newHeightPercent, onValueChange]);
 
     return (
         <div

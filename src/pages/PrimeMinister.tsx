@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 
 import Background from '../components/Background';
 import Button from '../components/Button';
@@ -9,11 +8,8 @@ import SkewButton from '../components/SkewButton';
 import TitleSideLine from '../components/TitleSideLine';
 import VoteButtons from '../components/VoteButtons';
 import { informationSources } from '../data/information-source';
-import { setExpectedAttack } from '../store/guessSlice';
 
 const PrimeMinister: React.FC = () => {
-    const dispatch = useDispatch();
-
     const [voteAnswer, setVoteAnswer] = useState<string>('');
     const [srcAnswer, setSrcAnswer] = useState<string>('');
 
@@ -27,7 +23,6 @@ const PrimeMinister: React.FC = () => {
 
     const handleSubmit = () => {
         if (voteAnswer === '' || srcAnswer === '') return;
-        dispatch(setExpectedAttack(srcAnswer === 'לא' ? 'לא עניין' : srcAnswer));
     };
 
     return (

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 
 import StaticBackground from '../assets/LeftShapes/static.svg';
 import Background from '../components/Background';
@@ -9,10 +8,8 @@ import QuestionCard from '../components/QuestionCard';
 import TitleUnderLine from '../components/TitleUnderLine';
 import { elephantQuestion } from '../data/elephant-question';
 import { LeftShapes } from '../data/floating-animations';
-import { setElephant } from '../store/answersSlice';
 
 const SeeYouAgain: React.FC = () => {
-    const dispatch = useDispatch();
     const [answer, setAnswer] = useState<string>('');
 
     const handleSelect = (choice: string) => {
@@ -21,7 +18,6 @@ const SeeYouAgain: React.FC = () => {
 
     const handleSubmit = () => {
         if (answer === '') return;
-        dispatch(setElephant(answer));
     };
 
     return (

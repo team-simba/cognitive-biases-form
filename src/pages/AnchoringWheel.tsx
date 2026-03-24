@@ -6,7 +6,7 @@ import pulleyNumbers from '../assets/pulleyNumbers.svg';
 import Background from '../components/Background';
 import Card from '../components/Card';
 import TitleUnderLine from '../components/TitleUnderLine';
-import { setFortuneWheel } from '../store/guessSlice';
+import { setFortuneWheel } from '../store/userAnswersSlice';
 
 const AnchoringWheel: React.FC = () => {
     const dispatch = useDispatch();

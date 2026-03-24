@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 
 import StaticBackground from '../assets/LeftShapes/static.svg';
 import Background from '../components/Background';
@@ -9,10 +8,8 @@ import QuestionCard from '../components/QuestionCard';
 import TitleUnderLine from '../components/TitleUnderLine';
 import { cigarQuestion } from '../data/cigar-question';
 import { LeftShapes } from '../data/floating-animations';
-import { setCigar } from '../store/answersSlice';
 
 const LittleDifferently: React.FC = () => {
-    const dispatch = useDispatch();
     const [answer, setAnswer] = useState<string>('');
 
     const handleSelect = (choice: string) => {
@@ -21,7 +18,6 @@ const LittleDifferently: React.FC = () => {
 
     const handleSubmit = () => {
         if (answer === '') return;
-        dispatch(setCigar(answer));
     };
     return (
         <Background>
