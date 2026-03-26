@@ -1,42 +1,90 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import curveText from '../assets/clickOnWheel.svg';
+import FullDashedCircle from '../assets/ColorfulShapesFrame/full-dashed-circle.svg';
 import pulleyNumbers from '../assets/pulleyNumbers.svg';
 import Background from '../components/Background';
 import Card from '../components/Card';
+import ColorfulShapesFrame from '../components/ColorfulShapesFrame';
 import TitleUnderLine from '../components/TitleUnderLine';
 import { setFortuneWheel } from '../store/userAnswersSlice';
 
+import type { RootState } from '../store/store';
+
+const getTargetAngle = (num: number) => {
+    const degreesPerNumber = 360 / 100;
+    const startOffset = -5.3;
+    return (num * degreesPerNumber + startOffset + 360) % 360;
+};
+
 const AnchoringWheel: React.FC = () => {
     const dispatch = useDispatch();
-    const [rotation, setRotation] = useState(0);
+    const fortuneWheelNumber = useSelector((state: RootState) => state.userAnswers.fortuneWheel);
+
+    const [step, setStep] = useState<1 | 2>(1);
+    const [rotation, setRotation] = useState(() =>
+        fortuneWheelNumber !== null ? getTargetAngle(fortuneWheelNumber) : 0,
+    );
     const [isSpinning, setIsSpinning] = useState(false);
+    const chosenRef = useRef<15 | 65 | null>(null);
+
+    const alreadyPlayed = fortuneWheelNumber !== null;
 
     const spinWheel = () => {
-        if (isSpinning) return;
+        if (isSpinning || alreadyPlayed) return;
         setIsSpinning(true);
 
-        const possibleStops = [15, 65];
+        const possibleStops: (15 | 65)[] = [15, 65];
         const chosen = possibleStops[Math.floor(Math.random() * possibleStops.length)];
-        const degreesPerNumber = 360 / 100;
-        const startOffset = -5.3;
-        const targetAngle = (chosen * degreesPerNumber + startOffset + 360) % 360;
+        chosenRef.current = chosen;
+
+        const targetAngle = getTargetAngle(chosen);
         const extraSpins = 4 * 360;
         const finalAngle = extraSpins + targetAngle;
 
         setRotation(finalAngle);
 
+        // After spin ends (4s) → wait 0.5s → show step 2
         setTimeout(() => {
             setIsSpinning(false);
-            dispatch(setFortuneWheel(chosen));
             setRotation(targetAngle);
+
+            setTimeout(() => {
+                setStep(2);
+                // Dispatch after a tick so step 2 renders before alreadyPlayed flips
+                setTimeout(() => {
+                    dispatch(setFortuneWheel(chosen));
+                }, 50);
+            }, 500);
         }, 4000);
     };
 
+    // Step 2: Number reveal with dashed circle and colorful shapes
+    if (step === 2) {
+        const displayNumber = chosenRef.current ?? fortuneWheelNumber;
+        return (
+            <Background>
+                <div className="absolute w-[26.25vw] h-[13.85vw] top-1/2 left-1/2 -translate-x-1/2 flex items-center justify-center">
+                    <span className="font-ploni-bold text-[20vw] leading-[100%] tracking-normal text-center text-primary number">
+                        {displayNumber}!
+                    </span>
+                </div>
+                <div className="relative flex justify-center h-screen">
+                    <img
+                        src={FullDashedCircle}
+                        className="absolute w-[60vw] h-[69vw] animate-spin-smooth"
+                    />
+                    <ColorfulShapesFrame />
+                </div>
+            </Background>
+        );
+    }
+
+    // Step 1: Wheel (first visit = spinnable, return visit = static with result beside it)
     return (
         <Background>
-            <div className="space-y-5 fixed inset-0 overflow-hidden padding-page">
+            <div className="space-y-5 fixed inset-0 overflow-hidden padding-page mt-12">
                 <TitleUnderLine text="נתחיל בניחושים" />
                 <div className="flex items-start gap-4 h-screen">
                     <Card width={'w-[40vw]'} className={'flex-shrink-0'}>
@@ -49,8 +97,11 @@ const AnchoringWheel: React.FC = () => {
                             </p>
                         </div>
                     </Card>
-                    <div className=" left-16 flex flex-col items-center relative self-end translate-y-[-10vw]">
-                        <img src={curveText} alt="לחצו על הגלגל כדי לסובב אותו" />
+                    <div className="left-16 flex flex-col items-center relative self-end translate-y-[-10vw]">
+                    <span className="absolute top-[-200px] font-ploni-bold text-[15vw] leading-[100%] tracking-normal text-center text-primary">
+                        {alreadyPlayed && fortuneWheelNumber+"!"}
+                    </span>
+                            <img src={curveText} alt="לחצו על הגלגל כדי לסובב אותו" className={`${alreadyPlayed ? "opacity-0" : ""} w-[600px]`}/>
                         <div
                             className="absolute top-[4vw] w-0 h-0 z-10
                                       border-l-[1.2vw] border-l-transparent
@@ -60,7 +111,7 @@ const AnchoringWheel: React.FC = () => {
                         ></div>
 
                         <div
-                            className="relative overflow-hidden w-[57vw] h-[29vw] rounded-t-full cursor-pointer"
+                            className={`relative overflow-hidden w-[57vw] h-[29vw] rounded-t-full ${!alreadyPlayed ? 'cursor-pointer' : ''}`}
                             onClick={spinWheel}
                         >
                             <img
@@ -76,6 +127,13 @@ const AnchoringWheel: React.FC = () => {
                             />
                         </div>
                     </div>
+                    {alreadyPlayed && (
+                        <div className="flex items-center justify-center flex-shrink-0 self-center">
+                            <span className="font-ploni-bold text-[10vw] leading-[100%] text-primary">
+                                {fortuneWheelNumber}!
+                            </span>
+                        </div>
+                    )}
                 </div>
             </div>
         </Background>

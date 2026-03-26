@@ -3,28 +3,28 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 interface UserAnswersState {
-    fortuneWheel: '15' | '65' | '';
-    europeanCountries: number | null;
+    fortuneWheel: 15 | 65 | null;
+    africanCountries: number | null;
 }
 
 const initialState: UserAnswersState = {
-    fortuneWheel: '15',
-    europeanCountries: null,
+    fortuneWheel: null,
+    africanCountries: null,
 };
 
 const userAnswersSlice = createSlice({
     name: 'userAnswers',
     initialState,
     reducers: {
-        setFortuneWheel(state, action: PayloadAction<'15' | '65'>) {
+        setFortuneWheel(state, action: PayloadAction<15 | 65>) {
             state.fortuneWheel = action.payload;
         },
-        setEuropeanCountries(state, action: PayloadAction<number>) {
-            state.europeanCountries = action.payload;
+        setafricanCountries(state, action: PayloadAction<number>) {
+            state.africanCountries = action.payload;
         },
     },
 });
 
-export const { setFortuneWheel, setEuropeanCountries } = userAnswersSlice.actions;
+export const { setFortuneWheel, setafricanCountries } = userAnswersSlice.actions;
 
 export default userAnswersSlice.reducer;

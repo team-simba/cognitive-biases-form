@@ -1,43 +1,72 @@
-import BottomLeftMan from '../assets/cognitiveBias/bottom-left-man.svg';
-import Ellipse from '../assets/cognitiveBias/ellipse.svg';
+
 import Background from '../components/Background';
-import Card from '../components/Card';
-import CognitiveBiasComposition from '../components/CognitiveBiasComposition';
-import TitleSideLine from '../components/TitleSideLine';
+
 
 const CognitiveBiasDisclaimer: React.FC = () => {
+
     return (
         <Background>
-            <div className="flex flex-col padding-page g-1">
-                <TitleSideLine text="הטיה קוגנטיבית" />
-                <Card width="w-[94.479vw]" className="z-10">
-                    <p className="font-notoSansHebrew-regular leading-[2.3vw]">
-                        <span className="font-notoSansHebrew-bold">"קוגניציה" </span>
-                        היא שם ליכולות המוח שלנו לרכוש ידע, לעבד מידע ולהשתמש בו.
-                        <br />
-                        המערכת הקוגניטיבית שלנו התפתחה כדי לעזור לנו לשרוד – ולכן היא יעילה מאוד,
-                        אבל לא תמיד מדויקת.
-                        <br />
-                        <br />
-                        <span className="font-notoSansHebrew-semiBold">
-                            הטיה קוגניטיבית היא קיצור דרך מחשבתי, שבעקבתו רובנו חוזרים על טעויות
-                            בהסקה, בהגיון ובקבלת החלטות.
-                        </span>
-                        <br />
-                        "אנחנו בטוחים הרבה יותר ממה שיש לנו הצדקה להיות בטוחים." - דניאל כנהמן, חתן
-                        פרס נובל
-                        <br />
-                        <br />
-                        בלומדה נלמד על ההטיות המרכזיות – כדי שבפעם הבאה שתיתקלו בהן, תוכלו
-                        <span className="font-notoSansHebrew-semiBold">
-                            &nbsp;לזהות אותן ואולי גם להימנע מהן.
-                        </span>
+            <div className="relative w-screen h-screen flex justify-center items-center overflow-hidden">
+                <svg
+                    viewBox="-150 -150 1868 1380"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={`
+            absolute
+            origin-center
+            transition-transform duration-[10000ms] ease-in-out
+          `}
+                >
+                    <circle
+                        cx="797.165"
+                        cy="540.001"
+                        r="657.724"
+                        transform="rotate(180 797.165 540.001)"
+                        stroke="black"
+                        strokeWidth="8.37376"
+                        strokeDasharray="16.75 27.91"
+                        fill="none"
+                    />
+                    <circle
+                        cx="1526.07"
+                        cy="863.908"
+                        r="36.7714"
+                        transform="rotate(-171.333 1526.07 863.908)"
+                        fill="#5CA25E"
+                    />
+                    <circle
+                        cx="39.878"
+                        cy="406.164"
+                        r="35.008"
+                        transform="rotate(-171.333 39.878 406.164)"
+                        fill="#E5BE34"
+                    />
+                    <circle
+                        cx="157.974"
+                        cy="241.234"
+                        r="77.9139"
+                        transform="rotate(-171.333 157.974 241.234)"
+                        fill="#A72608"
+                    />
+                </svg>
+
+                <div className="absolute px-4 w-full max-w-3xl text-center">
+                    <p
+                        className={`font-semibold text-[5vw] sm:text-[4vw] md:text-[3vw] lg:text-[2vw] leading-[1.2] sm:leading-[1.1] md:leading-[1] text-primary break-words transition-opacity duration-2000`}
+                    >
+                        בשקפים הבאים תתנסו בהטיות שונות.
+                        <br/>
+                        <br/>
+                        חשוב לזכור: 
+                        <br/>
+                        המטרה אינה להכשיל או “לעבוד” עליכם, אלא לאפשר לכם לחוות את ההטיות בעצמכם ולהבין מתי הן עשויות להופיע.
+                        <br/>
+                        <br/>
+                        ענו בכנות ולפי האינטואיציה שלכם. 
+                        <br/>
+                        לפעמים תטעו בדברים מסוימים ותצדקו באחרים, זה משתנה מאדם לאדם וזה לגמרי טבעי.
                     </p>
-                </Card>
+                </div>
             </div>
-            <img src={Ellipse} className="absolute left-0 top-[0.62vw] h-[43.36vh]" />
-            <CognitiveBiasComposition />
-            <img src={BottomLeftMan} className="absolute bottom-0 left-[84vw]" />
         </Background>
     );
 };

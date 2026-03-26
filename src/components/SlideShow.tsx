@@ -58,7 +58,7 @@ const SlideShowInner: React.FC = () => {
             revealAt: 0,
             slides: [
                 { name: 'CognitiveBiasOpening' },
-                //video
+                { name: 'CognitiveBiasVideo' },
                 { name: 'CognitiveBiasDisclaimer' },
             ],
         },
@@ -67,9 +67,8 @@ const SlideShowInner: React.FC = () => {
 
             revealAt: 3,
             slides: [
-                { name: 'AnchoringWheel' },
-                { name: 'AnchoringWheel2' },
-                { name: 'AnchoringQuestion', requiresAnswer: 'europeanCountries' },
+                { name: 'AnchoringWheel', requiresAnswer: 'fortuneWheel' },
+                { name: 'AnchoringQuestion', requiresAnswer: 'africanCountries' },
                 {
                     name: 'AnchoringGraph',
                     props: { dataFor15: data15, dataFor65: data65, step: 1 },

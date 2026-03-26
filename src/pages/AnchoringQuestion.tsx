@@ -9,7 +9,7 @@ import Card from '../components/Card';
 import FloatingAnimation from '../components/FloatingAnimations';
 import TitleUnderLine from '../components/TitleUnderLine';
 import { RightShapes } from '../data/floating-animations';
-import { setEuropeanCountries } from '../store/userAnswersSlice';
+import { setafricanCountries } from '../store/userAnswersSlice';
 
 const AnchoringQuestion: React.FC = () => {
     const dispatch = useDispatch();
@@ -23,7 +23,7 @@ const AnchoringQuestion: React.FC = () => {
 
     const handleSubmit = () => {
         if (dragValue.current === null) return;
-        dispatch(setEuropeanCountries(dragValue.current));
+        dispatch(setafricanCountries(dragValue.current));
     };
 
     return (
