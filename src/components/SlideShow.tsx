@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Provider, useSelector } from 'react-redux';
 
 import DevStateViewer from './DevStateViewer';
@@ -58,6 +58,7 @@ const SlideShowInner: React.FC = () => {
             revealAt: 0,
             slides: [
                 { name: 'CognitiveBiasOpening' },
+                { name: 'CognitiveBiasIntro' },
                 { name: 'CognitiveBiasVideo' },
                 { name: 'CognitiveBiasDisclaimer' },
             ],
@@ -65,7 +66,7 @@ const SlideShowInner: React.FC = () => {
         {
             name: 'עיגון',
 
-            revealAt: 3,
+            revealAt: 2,
             slides: [
                 { name: 'AnchoringWheel', requiresAnswer: 'fortuneWheel' },
                 { name: 'AnchoringQuestion', requiresAnswer: 'africanCountries' },
@@ -202,19 +203,27 @@ const SlideShowInner: React.FC = () => {
     const isLocked = currentSlide.requiresAnswer != null
         && userAnswers[currentSlide.requiresAnswer] === null;
 
+    const navCooldown = useRef(false);
+    const navigateTo = (next: number) => {
+        if (navCooldown.current) return;
+        navCooldown.current = true;
+        setFlatIndex(next);
+        setTimeout(() => { navCooldown.current = false; }, 500);
+    };
+
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (isLocked) return;
             if (e.key === 'ArrowRight') {
-                setFlatIndex((prev) => (prev > 0 ? prev - 1 : prev));
+                navigateTo(Math.max(0, flatIndex - 1));
             } else if (e.key === 'ArrowLeft' || e.key === 'Enter') {
-                setFlatIndex((prev) => (prev + 1 < totalSlides ? prev + 1 : prev));
+                if (isLocked) return;
+                navigateTo(Math.min(flatIndex + 1, totalSlides - 1));
             }
         };
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [totalSlides, isLocked]);
+    }, [totalSlides, isLocked, flatIndex]);
 
     const [CurrentComponent, setCurrentComponent] = useState<React.ComponentType<any> | null>(null);
 
@@ -229,12 +238,13 @@ const SlideShowInner: React.FC = () => {
     const currentProps = currentSlide.props || {};
 
     const handleSubjectClick = (index: number) => {
-        if (isLocked) return;
         let clickOffset = 0;
         for (let i = 0; i < index; i++) {
             clickOffset += subjects[i].slides.length;
         }
-        setFlatIndex(clickOffset);
+        // When locked, only allow navigating back (to earlier slides)
+        if (isLocked && clickOffset >= flatIndex) return;
+        navigateTo(clickOffset);
     };
 
     return (
@@ -246,7 +256,12 @@ const SlideShowInner: React.FC = () => {
                         const isVisited = visitedSubjects.has(i);
                         const isRevealed = revealedSubjects.has(i);
                         const isCurrent = i === subjectIndex;
-                        const isDisabled = !isVisited || isLocked;
+                        // Compute the flat index for this subject's first slide
+                        let subjectOffset = 0;
+                        for (let j = 0; j < i; j++) {
+                            subjectOffset += subjects[j].slides.length;
+                        }
+                        const isDisabled = !isVisited || (!isCurrent && isLocked && subjectOffset >= flatIndex);
 
                         return (
                             <button

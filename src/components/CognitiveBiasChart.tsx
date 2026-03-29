@@ -14,8 +14,8 @@ interface LabelViewBox {
 
 interface CognitiveBiasChartProps {
     data: { number: number; votes: number }[];
-    yourVote: number;
-    reference: number;
+    yourVote: number | null;
+    reference: number | null;
     color: 'blue' | 'green';
     arrowIconColor?: 'blue' | 'green';
     xTicks?: number[];

@@ -1,33 +1,43 @@
-import { MouseEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import type { MouseEvent } from 'react';
 
 import AnchorSvg from '../assets/ImagesForContinueGuessing/anchor-image.svg';
 import DragRectangle from '../assets/ImagesForContinueGuessing/drag-rectangle.svg';
 
 interface AnchorDragProps {
     onValueChange?: (value: number) => void;
+    disabled?: boolean;
+    initialValue?: number | null;
 }
 
-const AnchorDrag: React.FC<AnchorDragProps> = ({ onValueChange }) => {
+const AnchorDrag: React.FC<AnchorDragProps> = ({ onValueChange, disabled = false, initialValue }) => {
     const initialPosition = useMemo(() => {
         const vh = window.innerHeight;
         return Math.min(570, vh * 0.6);
     }, []);
 
-    const containerRef = useRef<HTMLDivElement>(null);
-
-    const [heightPercent, setHeightPercent] = useState<number>(0);
-    const [anchorPosition, setAnchorPosition] = useState<number>(initialPosition);
-    const [isDragging, setIsDragging] = useState(false);
-    const hasDragged = useRef(false);
-
     const TOP_POSITION_PX = 100;
     const BOTTOM_POSITION_PX = initialPosition;
 
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    const [heightPercent, setHeightPercent] = useState<number>(initialValue ?? 0);
+    const [anchorPosition, setAnchorPosition] = useState<number>(() => {
+        if (initialValue != null) {
+            const span = BOTTOM_POSITION_PX - TOP_POSITION_PX;
+            return BOTTOM_POSITION_PX - (initialValue / 100) * span;
+        }
+        return initialPosition;
+    });
+    const [isDragging, setIsDragging] = useState(false);
+    const hasDragged = useRef(false);
+
     const handleMouseDown = useCallback((event: MouseEvent) => {
+        if (disabled) return;
         event.preventDefault();
         hasDragged.current = true;
         setIsDragging(true);
-    }, []);
+    }, [disabled]);
 
     const handleDragEnd = useCallback(() => setIsDragging(false), []);
 
@@ -85,7 +95,7 @@ const AnchorDrag: React.FC<AnchorDragProps> = ({ onValueChange }) => {
                     draggable={false}
                 />
 
-                <span className="relative z-10 text-3xl left-[28.6vw]">{heightPercent}</span>
+                <span className="relative z-10 text-3xl left-[28.6vw]">{hasDragged.current || initialValue != null ? heightPercent : '-'}</span>
 
                 <div className="absolute rounded-full bg-anchor w-[1.05vw] h-[1.05vw] left-[26.85vw]" />
                 <div className="absolute bg-anchor rounded-full w-[1.66vw] h-[0.41vw] left-[27.76vw]" />

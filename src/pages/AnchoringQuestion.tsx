@@ -1,5 +1,7 @@
 import { useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+import type { RootState } from '../store/store';
 
 import StaticBackground from '../assets/RightShapes/static.svg';
 import AnchorGraphics from '../components/AnchorGraphics';
@@ -13,8 +15,12 @@ import { setafricanCountries } from '../store/userAnswersSlice';
 
 const AnchoringQuestion: React.FC = () => {
     const dispatch = useDispatch();
+    const savedAnswer = useSelector((state: RootState) => state.userAnswers.africanCountries);
+    const alreadyAnswered = savedAnswer !== null;
     const dragValue = useRef<number | null>(null);
     const [hasDragged, setHasDragged] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isSubmitted, setIsSubmitted] = useState(alreadyAnswered);
 
     const handleValueChange = (value: number) => {
         dragValue.current = value;
@@ -22,14 +28,19 @@ const AnchoringQuestion: React.FC = () => {
     };
 
     const handleSubmit = () => {
-        if (dragValue.current === null) return;
-        dispatch(setafricanCountries(dragValue.current));
+        if (dragValue.current === null || isLoading || isSubmitted) return;
+        setIsLoading(true);
+        setTimeout(() => {
+            dispatch(setafricanCountries(dragValue.current!));
+            setIsLoading(false);
+            setIsSubmitted(true);
+        }, 1000);
     };
 
     return (
         <Background>
             <div className="relative min-h-screen">
-                <AnchorGraphics onValueChange={handleValueChange} />
+                <AnchorGraphics onValueChange={handleValueChange} disabled={isSubmitted || isLoading} initialValue={savedAnswer} />
                 <div className="flex flex-col padding-page g-1">
                     <TitleUnderLine text="ממשיכים לנחש" />
                     <Card
@@ -51,9 +62,10 @@ const AnchoringQuestion: React.FC = () => {
                 </div>
                 <div className="absolute bottom-0 w-full flex justify-center mb-[2vw]">
                     <Button
-                        marked={false}
+                        marked={isSubmitted || alreadyAnswered}
+                        loading={isLoading}
                         content="הגשה"
-                        inputProvided={hasDragged}
+                        inputProvided={hasDragged || alreadyAnswered}
                         onClick={handleSubmit}
                         className="shape-angled-top font-medium text-[1.67vw]"
                     />
