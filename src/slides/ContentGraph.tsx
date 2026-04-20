@@ -11,7 +11,7 @@ interface VotingChartProps {
     cigar: ResultsGrafValues;
 }
 
-const ContentCognitiveBias: React.FC<VotingChartProps> = ({ elephant, cigar }) => {
+const ContentGraph: React.FC<VotingChartProps> = ({ elephant, cigar }) => {
     const votes: VoteItem[] = buildCigarElephantVotesData(
         { ...elephant, my: '' },
         { ...cigar, my: '' }
@@ -47,4 +47,4 @@ const ContentCognitiveBias: React.FC<VotingChartProps> = ({ elephant, cigar }) =
     );
 };
 
-export default ContentCognitiveBias;
+export default ContentGraph;

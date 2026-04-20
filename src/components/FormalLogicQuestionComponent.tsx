@@ -2,26 +2,35 @@ import { useState } from 'react';
 
 import Button from './Button';
 import LeftSmallCircleAnimation from './LeftSmallCircleAnimation';
-import Background from '../components/Background';
-import FormalLogicCard from '../components/FormalLogicCard';
-import TitleSideLine from '../components/TitleSideLine';
+import Background from './Background';
+import FormalLogicCard from './FormalLogicCard';
+import TitleSideLine from './TitleSideLine';
 
 interface FormalLogicProps {
     intro: string;
     cardsContent: Array<string>;
     cardsFontWeight: string;
     legality: string;
+    savedAnswer?: string[] | null;
+    onSubmit?: (answers: string[]) => void;
+    marked?: boolean;
+    loading?: boolean;
 }
 
-const FormalLogicQuestion: React.FC<FormalLogicProps> = ({
+const FormalLogicQuestionComponent: React.FC<FormalLogicProps> = ({
     intro,
     cardsContent,
     cardsFontWeight,
     legality,
+    savedAnswer,
+    onSubmit,
+    marked = false,
+    loading = false,
 }) => {
-    const [answers, setAnswers] = useState<Array<string>>([]);
-
+    const alreadyAnswered = savedAnswer != null;
+    const [answers, setAnswers] = useState<Array<string>>(savedAnswer ?? []);
     const handleSelect = (choice: string) => {
+        if (alreadyAnswered || loading) return;
         setAnswers((prev) => {
             if (prev.includes(choice)) {
                 return prev.filter((item) => item !== choice);
@@ -32,7 +41,8 @@ const FormalLogicQuestion: React.FC<FormalLogicProps> = ({
     };
 
     const handleSubmit = () => {
-        if (!answers.length) return;
+        if (!answers.length || loading || alreadyAnswered || !onSubmit) return;
+        onSubmit(answers);
     };
 
     return (
@@ -47,6 +57,8 @@ const FormalLogicQuestion: React.FC<FormalLogicProps> = ({
                             content={content}
                             fontSize={`${cardsFontWeight} font-bold`}
                             onClick={() => handleSelect(content)}
+                            disable={alreadyAnswered || loading}
+                            initialSelected={alreadyAnswered && (savedAnswer?.includes(content) ?? false)}
                         />
                     ))}
                 </div>
@@ -64,7 +76,9 @@ const FormalLogicQuestion: React.FC<FormalLogicProps> = ({
             <div className="fixed bottom-[3vh] left-1/2 -translate-x-1/2">
                 <Button
                     content="הגשה"
-                    inputProvided={answers.length > 0}
+                    inputProvided={answers.length > 0 || alreadyAnswered}
+                    marked={marked}
+                    loading={loading}
                     className="shape-angled-top"
                     onClick={handleSubmit}
                 />
@@ -74,4 +88,4 @@ const FormalLogicQuestion: React.FC<FormalLogicProps> = ({
     );
 };
 
-export default FormalLogicQuestion;
+export default FormalLogicQuestionComponent;

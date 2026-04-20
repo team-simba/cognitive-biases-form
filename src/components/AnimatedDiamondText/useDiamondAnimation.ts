@@ -1,5 +1,5 @@
 import { useAnimationFrame } from 'framer-motion';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import { INITIAL_DIAMOND, speed, growRate } from '../../data/diamond';
 
@@ -8,16 +8,25 @@ import type { DiamondPosition } from '../../types/diamond';
 export const useDiamondAnimation = (
     diamondElRef: React.RefObject<HTMLDivElement | null>,
     textRef: React.RefObject<HTMLDivElement | null>,
-    whiteTextRef: React.RefObject<HTMLDivElement | null>
+    whiteTextRef: React.RefObject<HTMLDivElement | null>,
+    onComplete?: () => void
 ) => {
     const [diamond, setDiamond] = useState<DiamondPosition>(INITIAL_DIAMOND);
+    const completedRef = React.useRef(false);
 
     useAnimationFrame(() => {
-        setDiamond((prev) => ({
-            ...prev,
-            left: prev.left - speed,
-            size: prev.size + growRate,
-        }));
+        setDiamond((prev) => {
+            const next = {
+                ...prev,
+                left: prev.left - speed,
+                size: prev.size + growRate,
+            };
+            if (!completedRef.current && next.left + next.size < 0) {
+                completedRef.current = true;
+                onComplete?.();
+            }
+            return next;
+        });
 
         // Update clip-path on the white text layer to match diamond position
         const diamondEl = diamondElRef.current;

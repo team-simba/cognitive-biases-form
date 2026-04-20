@@ -86,12 +86,12 @@ const AnchorDrag: React.FC<AnchorDragProps> = ({ onValueChange, disabled = false
             <div
                 onMouseDown={handleMouseDown}
                 style={{ top: `${anchorPosition}px` }}
-                className="absolute left-dynamic cursor-pointer flex items-center justify-center w-[7.9vw] h-[3.8vw] -translate-y-1/2"
+                className="absolute left-dynamic flex items-center justify-center w-[7.9vw] h-[3.8vw] -translate-y-1/2"
             >
                 <img
                     src={DragRectangle}
                     alt="Draggable handle"
-                    className="absolute inset-0 w-full h-full select-none [left:29.3vw] [right:auto]"
+                    className={`absolute inset-0 w-full h-full select-none [left:29.3vw] [right:auto] ${disabled ? '' : 'cursor-pointer'}`}
                     draggable={false}
                 />
 

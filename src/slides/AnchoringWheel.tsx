@@ -52,12 +52,9 @@ const AnchoringWheel: React.FC = () => {
 
             setTimeout(() => {
                 setStep(2);
-                // Dispatch after a tick so step 2 renders before alreadyPlayed flips
-                setTimeout(() => {
-                    dispatch(setFortuneWheel(chosen));
-                }, 50);
+                dispatch(setFortuneWheel(chosen));
             }, 500);
-        }, 4000);
+        }, 3800);
     };
 
     // Step 2: Number reveal with dashed circle and colorful shapes
@@ -87,13 +84,12 @@ const AnchoringWheel: React.FC = () => {
             <div className="space-y-5 fixed inset-0 overflow-hidden padding-page mt-12">
                 <TitleUnderLine text="נתחיל בניחושים" />
                 <div className="flex items-start gap-4 h-screen">
-                    <Card width={'w-[40vw]'} className={'flex-shrink-0'}>
+                    <Card width={'w-[35vw]'} className={'flex-shrink-0'}>
                         <div className="font-notoSansHebrew-regular">
                             <p>
-                                איזה מספר ייצא בגלגל המזל?
-                                <br />
-                                <span className="font-notoSansHebrew-bold">זכרו את המספר </span>
-                                שיצא, זה חשוב להמשך.
+                                זכרו את המספר שייצא בגלגל המזל, 
+                                <br/>
+                                זה חשוב להמשך.
                             </p>
                         </div>
                     </Card>
@@ -127,13 +123,6 @@ const AnchoringWheel: React.FC = () => {
                             />
                         </div>
                     </div>
-                    {alreadyPlayed && (
-                        <div className="flex items-center justify-center flex-shrink-0 self-center">
-                            <span className="font-ploni-bold text-[10vw] leading-[100%] text-primary">
-                                {fortuneWheelNumber}!
-                            </span>
-                        </div>
-                    )}
                 </div>
             </div>
         </Background>

@@ -6,12 +6,13 @@ interface CardProps {
     content: string;
     fontSize: string;
     onClick?: () => void;
-    disable?: false;
+    disable?: boolean;
+    initialSelected?: boolean;
 }
 
-const FormalLogicCard: React.FC<CardProps> = ({ content, fontSize, onClick, disable }) => {
-    const [rotated, setRotated] = useState(false);
-    const [bright, setBright] = useState(false);
+const FormalLogicCard: React.FC<CardProps> = ({ content, fontSize, onClick, disable, initialSelected = false }) => {
+    const [rotated, setRotated] = useState(initialSelected);
+    const [bright, setBright] = useState(initialSelected);
 
     const handleClick = () => {
         if (disable) return;

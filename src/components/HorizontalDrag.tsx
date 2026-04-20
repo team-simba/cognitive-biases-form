@@ -2,16 +2,28 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import DragRectangle from '../assets/ImagesForMoreTilt/drag-rectangle.svg';
 
-const HorizontalDrag: React.FC = () => {
+interface HorizontalDragProps {
+    onValueChange?: (value: number) => void;
+    disabled?: boolean;
+    initialValue?: number | null;
+}
+
+const MIN_POSITION_VW = 10;
+const MAX_POSITION_VW = 80;
+
+function percentToPositionVW(percent: number): number {
+    return (percent / 100) * (MAX_POSITION_VW - MIN_POSITION_VW) + MIN_POSITION_VW;
+}
+
+const HorizontalDrag: React.FC<HorizontalDragProps> = ({ onValueChange, disabled, initialValue }) => {
     const [percent, setPercent] = useState<number>(0);
-    const [positionVW, setPositionVW] = useState<number>(10);
+    const [positionVW, setPositionVW] = useState<number>(
+        initialValue != null ? percentToPositionVW(initialValue) : MIN_POSITION_VW
+    );
     const containerRef = useRef<HTMLDivElement>(null);
     const dragRef = useRef<HTMLImageElement>(null);
     const isDragging = useRef(false);
     const dragOffset = useRef(0);
-
-    const MIN_POSITION_VW = 10;
-    const MAX_POSITION_VW = 80;
 
     const handlePointerMove = useCallback((event: PointerEvent) => {
         if (!isDragging.current || !containerRef.current) return;
@@ -32,7 +44,7 @@ const HorizontalDrag: React.FC = () => {
 
     const handlePointerDown = useCallback(
         (event: React.PointerEvent<HTMLImageElement>) => {
-            if (!containerRef.current || !dragRef.current) return;
+            if (disabled || !containerRef.current || !dragRef.current) return;
             const rect = containerRef.current.getBoundingClientRect();
             const mouseX = event.clientX - rect.left;
             const currentPositionPx = (positionVW / 100) * rect.width;
@@ -42,7 +54,7 @@ const HorizontalDrag: React.FC = () => {
             document.addEventListener('pointermove', handlePointerMove);
             document.addEventListener('pointerup', handlePointerUp);
         },
-        [handlePointerMove, handlePointerUp, positionVW]
+        [disabled, handlePointerMove, handlePointerUp, positionVW]
     );
 
     useEffect(() => {
@@ -50,6 +62,7 @@ const HorizontalDrag: React.FC = () => {
             ((positionVW - MIN_POSITION_VW) / (MAX_POSITION_VW - MIN_POSITION_VW)) * 100
         );
         setPercent(newPercent);
+        onValueChange?.(newPercent);
     }, [positionVW]);
 
     return (
@@ -57,12 +70,12 @@ const HorizontalDrag: React.FC = () => {
             <div className="absolute left-[21vw] top-[57vh] w-[90vw] h-[0.4vw] bg-anchor rounded-full mb-[10vw] z-0">
                 <div
                     style={{ left: `${positionVW}%` }}
-                    className="absolute bottom-0 cursor-pointer -translate-x-1/2 flex flex-col justify-center items-center select-none"
+                    className="absolute bottom-0 -translate-x-1/2 flex flex-col justify-center items-center select-none"
                 >
                     <img
                         ref={dragRef}
                         src={DragRectangle}
-                        className="rounded-[1vw] h-[4vw] select-none"
+                        className={`rounded-[1vw] h-[4vw] select-none ${disabled ? '' : 'cursor-pointer'}`}
                         draggable={false}
                         onPointerDown={handlePointerDown}
                     />

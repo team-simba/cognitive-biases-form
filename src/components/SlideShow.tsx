@@ -10,6 +10,8 @@ interface ComponentItem {
     name: string;
     props?: Record<string, unknown>;
     requiresAnswer?: keyof RootState['userAnswers'];
+    blockNavigation?: boolean;
+    autoAdvanceAfter?: number;
 }
 
 interface Subject {
@@ -58,7 +60,6 @@ const SlideShowInner: React.FC = () => {
             revealAt: 0,
             slides: [
                 { name: 'CognitiveBiasOpening' },
-                { name: 'CognitiveBiasIntro' },
                 { name: 'CognitiveBiasVideo' },
                 { name: 'CognitiveBiasDisclaimer' },
             ],
@@ -78,7 +79,6 @@ const SlideShowInner: React.FC = () => {
                     name: 'AnchoringGraph',
                     props: { dataFor15: data15, dataFor65: data65, step: 2 },
                 },
-                { name: 'AnchoringGraph', props: { step: 3 } },
                 { name: 'AnchoringSecuritySection', props: { step: 1 } },
                 { name: 'AnchoringSecuritySection', props: { step: 2 } },
             ],
@@ -87,21 +87,18 @@ const SlideShowInner: React.FC = () => {
             name: 'קלסיפיקציה',
             revealAt: 1,
             slides: [
-                { name: 'ClassificationQuetion' },
-                { name: 'ClassificationExplanation' },
-                {
-                    name: 'ResultsGraph2',
-                    props: { data: data },
-                },
-                { name: 'OctoberAnimation' },
-                { name: 'ClassificationInContextOctober' },
+                { name: 'ClassificationQuestion', requiresAnswer: 'plumberProbability' },
+                { name: 'ClassificationExplanation', props: { data: data },},
+                { name: 'ClassificationSecuritySection', props: { step: 1 } },
+                { name: 'ClassificationSecuritySection', props: { step: 2 } },
             ],
         },
         {
             name: 'זמינות',
-            revealAt: 2,
+            revealAt: 3,
             slides: [
-                { name: 'CognitiveBiasAvailability' },
+                { name: 'AvailabilityNames', blockNavigation: true, autoAdvanceAfter: 10000 },
+                { name: 'AvailabilityQuestion', requiresAnswer: 'availabilityAnswer' },
                 { name: 'Availability', props: { step: 1 } },
                 { name: 'Availability', props: { step: 2 } },
             ],
@@ -110,10 +107,10 @@ const SlideShowInner: React.FC = () => {
             name: 'תוכן',
             revealAt: 2,
             slides: [
-                { name: 'SeeYouAgain' },
-                { name: 'LittleDifferently' },
+                { name: 'ContentQuestion1', requiresAnswer: 'elephantAnswer' },
+                { name: 'ContentQuestion2', requiresAnswer: 'cigarAnswer' },
                 {
-                    name: 'ContentCognitiveBias',
+                    name: 'ContentGraph',
                     props: { elephant: elephant, cigar: cigar },
                 },
                 { name: 'ContentCognitiveBiasSummary' },
@@ -124,7 +121,7 @@ const SlideShowInner: React.FC = () => {
             revealAt: 2,
             slides: [
                 { name: 'CognitiveBiasLogic' },
-                { name: 'FirstFormalLogicQuestion' },
+                { name: 'FormalLogicQuestion', requiresAnswer: 'formalLogicAnswer' },
                 { name: 'ResultGraph', props: { percentage: 80 } },
                 { name: 'CognitiveBiasLogic2' },
                 { name: 'OctoberAnimation' },
@@ -203,6 +200,10 @@ const SlideShowInner: React.FC = () => {
     const isLocked = currentSlide.requiresAnswer != null
         && userAnswers[currentSlide.requiresAnswer] === null;
 
+    // blockNavigation only applies on first visit (before user has moved past this slide)
+    const isFirstVisit = flatIndex >= maxFlatIndex;
+    const shouldBlockNav = currentSlide.blockNavigation === true && isFirstVisit;
+
     const navCooldown = useRef(false);
     const navigateTo = (next: number) => {
         if (navCooldown.current) return;
@@ -213,37 +214,45 @@ const SlideShowInner: React.FC = () => {
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
+            if (isLocked || shouldBlockNav) return;
             if (e.key === 'ArrowRight') {
                 navigateTo(Math.max(0, flatIndex - 1));
             } else if (e.key === 'ArrowLeft' || e.key === 'Enter') {
-                if (isLocked) return;
                 navigateTo(Math.min(flatIndex + 1, totalSlides - 1));
             }
         };
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [totalSlides, isLocked, flatIndex]);
+    }, [totalSlides, isLocked, flatIndex, shouldBlockNav]);
+
+    useEffect(() => {
+        if (!currentSlide.autoAdvanceAfter || !isFirstVisit) return;
+        const timer = setTimeout(() => {
+            navigateTo(Math.min(flatIndex + 1, totalSlides - 1));
+        }, currentSlide.autoAdvanceAfter);
+        return () => clearTimeout(timer);
+    }, [flatIndex, currentSlide.autoAdvanceAfter, totalSlides, isFirstVisit]);
 
     const [CurrentComponent, setCurrentComponent] = useState<React.ComponentType<any> | null>(null);
 
     useEffect(() => {
         let cancelled = false;
-        import(`../pages/${currentSlide.name}`).then((mod) => {
+        import(`../slides/${currentSlide.name}`).then((mod) => {
             if (!cancelled) setCurrentComponent(() => mod.default);
         });
         return () => { cancelled = true; };
     }, [currentSlide.name]);
 
     const currentProps = currentSlide.props || {};
+    const onAdvance = () => navigateTo(Math.min(flatIndex + 1, totalSlides - 1));
 
     const handleSubjectClick = (index: number) => {
         let clickOffset = 0;
         for (let i = 0; i < index; i++) {
             clickOffset += subjects[i].slides.length;
         }
-        // When locked, only allow navigating back (to earlier slides)
-        if (isLocked && clickOffset >= flatIndex) return;
+        if (isLocked || shouldBlockNav) return;
         navigateTo(clickOffset);
     };
 
@@ -261,7 +270,7 @@ const SlideShowInner: React.FC = () => {
                         for (let j = 0; j < i; j++) {
                             subjectOffset += subjects[j].slides.length;
                         }
-                        const isDisabled = !isVisited || (!isCurrent && isLocked && subjectOffset >= flatIndex);
+                        const isDisabled = shouldBlockNav || !isVisited || (!isCurrent && isLocked);
 
                         return (
                             <button
@@ -272,10 +281,10 @@ const SlideShowInner: React.FC = () => {
                                     (e.target as HTMLElement).blur();
                                 }}
                                 className={`px-3 py-1 rounded text-sm transition-colors ${
-                                    isDisabled
-                                        ? 'bg-gray-100 text-gray-300 cursor-not-allowed'
-                                        : isCurrent
-                                          ? 'bg-blue-500 text-white cursor-pointer'
+                                    isCurrent
+                                        ? 'bg-blue-500 text-white cursor-not-allowed'
+                                        : isDisabled
+                                          ? 'bg-gray-100 text-gray-300 cursor-not-allowed'
                                           : 'bg-gray-200 text-gray-700 hover:bg-gray-300 cursor-pointer'
                                 }`}
                             >
@@ -286,7 +295,7 @@ const SlideShowInner: React.FC = () => {
                 </nav>
                 <div className="flex-1 flex items-center justify-center">
                     <div className="w-full h-full flex items-center justify-center transition-all duration-300">
-                        {CurrentComponent && <CurrentComponent {...currentProps} />}
+                        {CurrentComponent && <CurrentComponent {...currentProps} onAdvance={onAdvance} />}
                     </div>
                 </div>
             </div>

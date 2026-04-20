@@ -14,7 +14,7 @@ interface ChartDataPoint {
 }
 
 interface AnchoringGraphProps {
-    step: 1 | 2 | 3;
+    step: 1 | 2 ;
     dataFor15: ChartDataPoint[];
     dataFor65: ChartDataPoint[];
 }
@@ -24,11 +24,13 @@ const AnchoringGraph: React.FC<AnchoringGraphProps> = ({ step, dataFor15, dataFo
     const userVote = useSelector((state: RootState) => state.userAnswers.africanCountries);
 
     const config = {
-        15: { data: dataFor15, majorityEstimate: 25, color: 'blue' },
-        65: { data: dataFor65, majorityEstimate: 45, color: 'green' },
+        15: { data: dataFor15, color: 'blue' },
+        65: { data: dataFor65, color: 'green' },
     } as const;
 
-    const { data, majorityEstimate, color } = config[anchorNumber];
+    if (anchorNumber === null) return null;
+
+    const { data, color } = config[anchorNumber];
 
     return (
         <>
@@ -43,33 +45,32 @@ const AnchoringGraph: React.FC<AnchoringGraphProps> = ({ step, dataFor15, dataFo
                             {step === 1 && (
                                 <>
                                     <p className="font-notoSansHebrew-regular">
-                                        המספר שקיבלת בהתחלה – לא היה סתם.&nbsp;
-                                        <span className="font-notoSansHebrew-bold">
-                                            הוא שימש לך כעוגן והשפיע על ההחלטה שלך
-                                        </span>
-                                        &nbsp;בלי ששמת לב.
-                                        <br />
-                                        הגרף פה מציג את התשובות של כל מי שקיבל את המספר&nbsp;
-                                        {anchorNumber} (כן, כמוך) וכמעט כולם העריכו מספרים קרובים ל־
-                                        {majorityEstimate}.
-                                        <br />
-                                        ככה עובד אפקט העיגון: מידע אקראי שנחשפנו אליו קודם, משפיע על
-                                        איך שאנחנו חושבים אחר כך.
+                                        <b>
+                                    אז למה בכלל ביקשנו מכם להגריל מספר לפני השאלה?
+                                        </b>
+                                    <br/>
+בחלק בו הגרלתם מספר, המספר שיצא לכם לא היה אקראי אלא נקבע מראש - חלק קיבלו 65 כמוכם וחלק קיבלו 15. 
+                                    <br/>
+אצל רבים, המספר שהוגרל שימש כ“עוגן” - נקודת התחלה שממנה מתחילים לחשוב ולהעריך. 
+גם אם המספר עצמו לא קשור לשאלה, המוח נוטה להתייחס אליו, ולכן ההערכה עלולה להימשך לכיוונו. 
+
+הגרף שלפניכם, מציג את התשובות של כל מי שהגריל מספר דומה לשלכם ({anchorNumber}).
+
                                     </p>
                                 </>
                             )}
                             {step === 2 && (
                                 <>
                                     <p className="text-[1.88vw] font-notoSansHebrew-regular">
-                                        בניסוי, חלק מהנבדקים קיבלו את המספר&nbsp;
-                                        <span className="font-notoSansHebrew-semiBold">
-                                            15&nbsp;
-                                        </span>
-                                        וחלק את&nbsp;
-                                        <span className="font-notoSansHebrew-semiBold">65</span>.
-                                        <br />
-                                        אלה שקיבלו 15 העריכו את התשובה סביב 25, ואלה שקיבלו 65 נתנו
-                                        הערכות קרובות ל־45.
+                                        <b>
+                                    וזו בדיוק הטיית העיגון:&nbsp;
+                                        </b>
+                                    הנטייה להסתמך על נקודת מוצא ראשונית 
+                                    (מידע או רושם ראשון) ולהתאים אליה את ההחלטות שלנו, גם כשהיא לא בהכרח רלוונטית.
+איך נוכל לראות את ההטיה? לפניכם גרף ההערכות של מי שקיבלו 15 ושל מי שקיבלו 65, 
+שימו לב שממוצע הנחשפים למספר הגבוה מבין ה-2, העריכו מספר גדול יותר של מדינות אפריקאיות החברות באו״ם משל הנחשפים למספר הנמוך. כך ניתן לראות את ההשפעה של מספר נפרד לשאלה על התשובה עליה.
+(אגב - התשובה הנכונה לשאלה היא 54).
+
                                     </p>
                                 </>
                             )}
@@ -118,22 +119,6 @@ const AnchoringGraph: React.FC<AnchoringGraphProps> = ({ step, dataFor15, dataFo
                         )}
                     </div>
                 </Background>
-            )}
-            {step === 3 && (
-                <SubjectMainScreen
-                    titleContent="הטייה קוגניטיבית מספר 1 – עיגון"
-                    content={
-                        <p>
-                            הטיית העיגון היא הנטייה שלנו&nbsp;
-                            <span className="font-notoSansHebrew-bold">
-                                להישען על מספר או מידע ראשוני גם כשאין לו קשר לשאלה.
-                            </span>
-                            <br />
-                            מעניין, לא? הוכחנו שמספר אקראי משפיע על ההיגיון שלנו. וזה רלוונטי גם
-                            לתחומים אחרים, כמו כלכלה למשל!
-                        </p>
-                    }
-                />
             )}
         </>
     );

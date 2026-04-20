@@ -1,3 +1,8 @@
+import { useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import type { RootState } from '../store/store';
+
 import StaticBackground from '../assets/LeftShapes/more-tilt.svg';
 import Background from '../components/Background';
 import Button from '../components/Button';
@@ -6,16 +11,36 @@ import FloatingAnimation from '../components/FloatingAnimations';
 import HorizontalDrag from '../components/HorizontalDrag';
 import TitleUnderLine from '../components/TitleUnderLine';
 import { LeftShapes } from '../data/floating-animations';
+import { setPlumberProbability } from '../store/userAnswersSlice';
 
-const ClassificationQuetion: React.FC = () => {
+const ClassificationQuestion: React.FC = () => {
+    const dispatch = useDispatch();
+    const savedAnswer = useSelector((state: RootState) => state.userAnswers.plumberProbability);
+    const alreadyAnswered = savedAnswer !== null;
+    const dragValue = useRef<number | null>(null);
+    const [hasDragged, setHasDragged] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isSubmitted, setIsSubmitted] = useState(alreadyAnswered);
+
+    const handleValueChange = (value: number) => {
+        dragValue.current = value;
+        if (!hasDragged) setHasDragged(true);
+    };
+
     const handleSubmit = () => {
-        //TODO redux;
+        if (dragValue.current === null || isLoading || isSubmitted) return;
+        setIsLoading(true);
+        setTimeout(() => {
+            dispatch(setPlumberProbability(dragValue.current!));
+            setIsLoading(false);
+            setIsSubmitted(true);
+        }, 1000);
     };
 
     return (
         <Background>
             <div className="relative min-h-screen padding-page">
-                <TitleUnderLine text="עוד הטיה!" className={'mb-[1vw]'} />
+                <TitleUnderLine text="סיטואציה נתונה" className={'mb-[1vw]'} />
                 <Card
                     width="w-[fit]"
                     height="h-[11vw]"
@@ -32,7 +57,7 @@ const ClassificationQuetion: React.FC = () => {
                         </span>
                         <br />
                         <span className="font-notoSansHebrew-bold">
-                            מה הסיכויים מ- 1 עד 100 שמנחם הוא שרברב?
+                            מה הסיכויים מ- 1 עד 100 אחוזים שמנחם הוא שרברב?
                         </span>
                     </p>
                 </Card>
@@ -41,12 +66,17 @@ const ClassificationQuetion: React.FC = () => {
                     shapes={LeftShapes}
                     classes="w-[28vw] z-10"
                 />
-                <HorizontalDrag />
-                <div className="w-full flex justify-center pt-[30vw]">
+                <HorizontalDrag
+                    onValueChange={handleValueChange}
+                    disabled={isSubmitted || isLoading}
+                    initialValue={savedAnswer}
+                />
+                <div className="w-full flex justify-center pt-[36vw]">
                     <Button
-                        marked={false}
+                        marked={isSubmitted || alreadyAnswered}
+                        loading={isLoading}
                         content="הגשה"
-                        inputProvided={true}
+                        inputProvided={hasDragged || alreadyAnswered}
                         onClick={handleSubmit}
                         className="shape-angled-top text-[1.67vw]"
                     />
@@ -55,4 +85,4 @@ const ClassificationQuetion: React.FC = () => {
         </Background>
     );
 };
-export default ClassificationQuetion;
+export default ClassificationQuestion;

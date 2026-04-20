@@ -42,25 +42,25 @@ const AnchoringQuestion: React.FC = () => {
             <div className="relative min-h-screen">
                 <AnchorGraphics onValueChange={handleValueChange} disabled={isSubmitted || isLoading} initialValue={savedAnswer} />
                 <div className="flex flex-col padding-page g-1">
-                    <TitleUnderLine text="ממשיכים לנחש" />
+                    <TitleUnderLine text="ובנושא אחר..." />
                     <Card
-                        width="w-[37.78vw]"
-                        height="h-[8.6vw]"
+                        width="w-[37vw]"
+                        height="h-[10vw]"
                         padding="p-[2.6vw]"
                         gap="gap-[0.52vw]"
-                        className="justify-center items-end"
+                        className="justify-center"
                     >
                         <p className="text-right font-notoSansHebrew-regular w-[30.6vw]">
                             <span>נסו להעריך: </span>
                             <span className="font-notoSansHebrew-bold whitespace-nowrap">
-                                כמה מדינות יש באירופה?
+                                כמה מדינות אפריקאיות חברות באו"ם?
                             </span>
                             <br />
-                            בחרו מספר בין 0 ל-100
+                            בחרו מספר בין 0 ל-100.
                         </p>
                     </Card>
                 </div>
-                <div className="absolute bottom-0 w-full flex justify-center mb-[2vw]">
+                <div className="absolute bottom-[150px] w-full flex justify-center mb-[2vw]">
                     <Button
                         marked={isSubmitted || alreadyAnswered}
                         loading={isLoading}

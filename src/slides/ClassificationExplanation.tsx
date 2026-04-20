@@ -8,7 +8,7 @@ interface ChartDataPoint {
     votes: number;
 }
 
-const ResultsGraph2: React.FC<ChartDataPoint[]> = ({ data }) => {
+const ClassificationExplanation: React.FC<ChartDataPoint[]> = ({ data }) => {
     const yourVote = null;
     return (
         <Background>
@@ -16,19 +16,15 @@ const ResultsGraph2: React.FC<ChartDataPoint[]> = ({ data }) => {
                 <TitleUnderLine text="גרף תוצאות" />
                 <Card className="h-[20vh]">
                     <p className="font-notoSansHebrew-regular">
-                        <span className="font-notoSansHebrew-bold">נפלתם פה?</span>
-                        <br />
-                        <span className="font-notoSansHebrew-bold">כשהציגו רק את הנתון </span>
-                        "70% עורכי דין, 30% שרברבים" – הרוב הגדול של האנשים יגידו שהסיכוי שיצא שרברב
-                        הוא 30%, אבל ברגע
-                        <span className="font-notoSansHebrew-bold"> שמציגים את התיאור של מנחם</span>
-                        , פתאום נבדקים אומרים שהסיכוי הוא 50%.
+אנחנו מארגנים מידע באמצעות קטגוריות ותבניות מוכרות. כשמוצג רק הנתון הסטטיסטי: 30 שרברבים מתוך 100 איש בחדר, ההסתברות שאדם אקראי הוא שרברב היא 30%. 
+אבל כשמוסיפים תיאור אישי שתואם סטריאוטיפ של שרברב, כמו במקרה של מנחם, רבים נוטים להעריך שהסיכוי גבוה יותר. 
+בפועל התיאור לא משנה את הסטטיסטיקה, אלא משפיע על השיפוט: ההערכה נשענת על מידת ההתאמה לתבנית מוכרת במקום על הנתונים עצמם.
                     </p>
                 </Card>
                 <CognitiveBiasChart
                     data={data}
                     yourVote={yourVote}
-                    reference={70}
+                    reference={30}
                     color={'green'}
                     ArrowIconColor={'green'}
                     xTicks={[0, 30, 50, 70, 100]}
@@ -38,4 +34,4 @@ const ResultsGraph2: React.FC<ChartDataPoint[]> = ({ data }) => {
     );
 };
 
-export default ResultsGraph2;
+export default ClassificationExplanation;

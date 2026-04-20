@@ -37,6 +37,7 @@ const CognitiveBiasChart: React.FC<CognitiveBiasChartProps> = ({
             className="relative w-full h-[45vh] min-h-[320px] rounded-xl overflow-hidden"
             role="img"
             aria-label={`תרשים המציג את התפלגות ההצבעות עבור עוגן ${reference}, כולל הצבעת המשתמש בערך ${yourVote}`}
+            style={{ pointerEvents: 'none' }}
         >
             <div className="relative h-full z-10 px-[2vw] py-[2vh]">
                 <ResponsiveContainer width="100%" height="100%">
@@ -95,6 +96,7 @@ const CognitiveBiasChart: React.FC<CognitiveBiasChartProps> = ({
                             stroke="none"
                             fill={`url(#${patternId})`}
                             fillOpacity={0.3}
+                            isAnimationActive={false}
                         />
 
                         <ReferenceLine x={reference} stroke={mainColor} strokeDasharray="30 20" />
@@ -112,8 +114,8 @@ const CognitiveBiasChart: React.FC<CognitiveBiasChartProps> = ({
                                                     ? greenArrowIcon
                                                     : blueArrowIcon
                                             }
-                                            width="1.26vw"
-                                            height="1.54vw"
+                                            width="20"
+                                            height="24"
                                         />
                                         <text
                                             x={10}
@@ -122,7 +124,7 @@ const CognitiveBiasChart: React.FC<CognitiveBiasChartProps> = ({
                                             fontSize="20"
                                             className="font-notoSansHebrew-semiBold"
                                         >
-                                            ההצבעה שלך
+                                            ההערכה שלך ({yourVote})
                                         </text>
                                     </g>
                                 );

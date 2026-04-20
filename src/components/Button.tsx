@@ -46,9 +46,8 @@ const Button: React.FC<ButtonProps> = ({
                     text-white text-[1.8vw]
                     hover:bg-blue-mid
                     pb-[0.5vw]
-                    cursor-pointer
                     ${className}
-                    ${hasSubmitted ? 'bg-blue-mid rotate-[8deg]' : 'bg-secondary'}
+                    ${hasSubmitted ? 'bg-blue-mid rotate-[8deg]' : 'bg-secondary cursor-pointer'}
                     ${isShaking ? 'animate-shake' : ''}
                 `}
             >

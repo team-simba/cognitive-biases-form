@@ -6,6 +6,7 @@ import { useDiamondAnimation } from './useDiamondAnimation';
 
 interface AnimatedDiamondTextProps {
     text: string;
+    onComplete?: () => void;
 }
 
 const renderText = (text: string) => {
@@ -24,11 +25,11 @@ const renderText = (text: string) => {
     });
 };
 
-const AnimatedDiamondText: React.FC<AnimatedDiamondTextProps> = ({ text }) => {
+const AnimatedDiamondText: React.FC<AnimatedDiamondTextProps> = ({ text, onComplete }) => {
     const textRef = useRef<HTMLDivElement>(null);
     const whiteTextRef = useRef<HTMLDivElement>(null);
     const diamondElRef = useRef<HTMLDivElement>(null);
-    const { diamond } = useDiamondAnimation(diamondElRef, textRef, whiteTextRef);
+    const { diamond } = useDiamondAnimation(diamondElRef, textRef, whiteTextRef, onComplete);
 
     return (
         <Background>
