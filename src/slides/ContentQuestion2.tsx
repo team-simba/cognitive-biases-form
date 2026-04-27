@@ -49,8 +49,8 @@ const ContentQuestion2: React.FC = () => {
                 <TitleUnderLine text="ועכשיו קצת אחרת..." />
 
                 <QuestionCard
-                    width="w-[60vw]"
-                    height="h-[27.08vw]"
+                    width="w-[50vw]"
+                    height="h-[30.08vw]"
                     question={cigarQuestion}
                     answer={answer}
                     onSelect={handleSelect}

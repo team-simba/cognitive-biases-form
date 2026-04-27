@@ -57,13 +57,13 @@ const AvailabilityQuestion: React.FC = () => {
     return (
         <Background>
             <div className="relative min-h-screen padding-page" dir="rtl">
-                <div className="flex flex-col items-end">
-                    <TitleSideLine text="המשיכו להעריך" />
-                    <p className="font-notoSansHebrew-regular text-right text-[1.4vw] mt-[1.5vw] leading-[2.4vw] text-primary">
+                <div className="flex flex-col text-right">
+                <TitleSideLine text="המשיכו להעריך" />
+                    <p className="font-notoSansHebrew-bold text-right text-[1.7vw] mt-[1vw] mr-[2vw] leading-[2.4vw] text-primary">
                         מבלי לחזור לרשימה, נסו להעריך: האם ברשימה היו יותר שמות של נשים או של גברים?
                     </p>
-                    <p className="font-notoSansHebrew-regular text-right text-[1.2vw] mt-[0.5vw] text-primary opacity-70">
-                        הערה: זה בסדר אם אינכם זוכרים! נסו רק להעריך
+                    <p className="font-notoSansHebrew-bold text-right text-[1.5vw] mt-[0.5vw] mr-[2vw] text-primary opacity-70">
+                         זה בסדר אם אינכם זוכרים! נסו רק להעריך.
                     </p>
                 </div>
 
@@ -78,7 +78,7 @@ const AvailabilityQuestion: React.FC = () => {
                                 selected === 'male'
                                     ? 'bg-[#2B4C8C]'
                                     : 'bg-[#5B7EC9] hover:bg-[#4A6BB5]'
-                            } disabled:cursor-not-allowed`}
+                            } ${isSubmitted? "":"cursor-pointer"}`}
                         >
                             שמות של גברים
                         </button>
@@ -93,8 +93,8 @@ const AvailabilityQuestion: React.FC = () => {
                             className={`w-[18vw] py-[2vw] rounded-[0.5vw] text-white text-[1.67vw] font-notoSansHebrew-semiBold transition-colors ${
                                 selected === 'female'
                                     ? 'bg-[#2B4C8C]'
-                                    : 'bg-[#5B7EC9] hover:bg-[#4A6BB5]'
-                            } disabled:cursor-not-allowed`}
+                                    : isSubmitted ? "bg-[#5B7EC9]":'bg-[#5B7EC9] hover:bg-[#4A6BB5]'
+                            } ${isSubmitted? "":"cursor-pointer"}`}
                         >
                             שמות של נשים
                         </button>

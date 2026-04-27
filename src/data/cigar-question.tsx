@@ -12,7 +12,7 @@ export const cigarQuestion: Question = {
             חלק מהסיגריות זולות.
             <br />
             <span className="font-notoSansHebrew-bold whitespace-nowrap">
-                האם אפשר להגיד על סמך הנתונים שיש סיגריות שאינן ממכרות?
+                לפי התרשמותכם, האם אפשר להגיד על סמך הנתונים <br/>שיש סיגריות שאינן ממכרות?
             </span>
         </>
     ),

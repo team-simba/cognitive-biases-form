@@ -13,6 +13,7 @@ interface UserAnswersState {
     cigarAnswer: boolean | null;
     cigarAnswerTime: number | null;
     formalLogicAnswer: string[] | null;
+    mysteryCandidateRating: 1 | 2 | 3 | 4 | null;
 }
 
 const initialState: UserAnswersState = {
@@ -26,6 +27,7 @@ const initialState: UserAnswersState = {
     cigarAnswer: null,
     cigarAnswerTime: null,
     formalLogicAnswer: null,
+    mysteryCandidateRating: null,
 };
 
 const userAnswersSlice = createSlice({
@@ -62,6 +64,9 @@ const userAnswersSlice = createSlice({
         setFormalLogicAnswer(state, action: PayloadAction<string[]>) {
             state.formalLogicAnswer = action.payload;
         },
+        setMysteryCandidateRating(state, action: PayloadAction<1 | 2 | 3 | 4>) {
+            state.mysteryCandidateRating = action.payload;
+        },
     },
 });
 
@@ -76,6 +81,7 @@ export const {
     setCigarAnswer,
     setCigarAnswerTime,
     setFormalLogicAnswer,
+    setMysteryCandidateRating,
 } = userAnswersSlice.actions;
 
 export default userAnswersSlice.reducer;

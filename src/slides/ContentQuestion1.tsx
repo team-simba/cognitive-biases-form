@@ -49,8 +49,8 @@ const ContentQuestion1: React.FC = () => {
                 <TitleUnderLine text="נראה אתכם הפעם..." />
 
                 <QuestionCard
-                    width="w-[50.55vw]"
-                    height="h-[27.6vw]"
+                    width="w-[55.55vw]"
+                    height="h-[30.6vw]"
                     question={elephantQuestion}
                     answer={answer}
                     onSelect={handleSelect}

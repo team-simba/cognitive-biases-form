@@ -20,14 +20,15 @@ const ContentGraph: React.FC<VotingChartProps> = ({ elephant, cigar }) => {
     return (
         <Background>
             <div className="flex flex-col w-full h-screen padding-page g-1">
-                <TitleUnderLine text="הטייה קוגניטיבית מספר 4 - תוכן" />
+                <TitleUnderLine text="הטייה קוגניטיבית מספר 3 - זמינות" />
                 <Card width="w-[94.48vw]" padding="p-8" className="flex justify-center">
                     <p className="font-notoSansHebrew-regular">
-                    בשאלות שנשאלתם, ייתכן שהשאלה על הקפה הייתה קלה יותר, בעוד שהשאלה על הסיגריות דרשה קצת יותר מחשבה. 
-מבחינה לוגית שתי השאלות זהות, וגם התשובה הנכונה זהה (כן) - ההבדל היחיד הוא התוכן.
+                    <p className="font-notoSansHebrew-bold inline">
+מה היה ברשימה שראיתם?</p>&nbsp;
+חלק מכם קיבלתם רשימה שבה יש יותר נשים אך היו בה יותר גברים מפורסמים וחלק מכם קיבלתם רשימה שהיו בה יותר גברים אך יותר נשים מפורסמות.
+<br/><p className="font-notoSansHebrew-bold inline">מה רוב המשתתפים ענו?</p>&nbsp;
+ברוב המקרים, המשתתפים נטו לבחור את המין שבו הופיעו יותר שמות מוכרים/מפורסמים - גם כשבפועל זה לא היה המין השכיח יותר ברשימה.
 
-בשאלת הקפה התוכן תואם את העובדות שאנו מכירים (אכן יש קפה שלא נשתה בספל), ולכן קל להיצמד למסקנה מהנתונים. 
-בשאלת הסיגריות המסקנה (שיש סיגריות שאינן ממכרות) מתנגשת עם מה שמוכר לנו, ולכן רבים מהססים או מתקשים לקבל אותה למרות שהיא נובעת לוגית מהטענות.
                     </p>
                 </Card>
                 <div className="w-[63.54vw] mx-auto">

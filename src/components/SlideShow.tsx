@@ -95,12 +95,14 @@ const SlideShowInner: React.FC = () => {
         },
         {
             name: 'זמינות',
-            revealAt: 3,
+            revealAt: 2,
             slides: [
                 { name: 'AvailabilityNames', blockNavigation: true, autoAdvanceAfter: 10000 },
                 { name: 'AvailabilityQuestion', requiresAnswer: 'availabilityAnswer' },
-                { name: 'Availability', props: { step: 1 } },
-                { name: 'Availability', props: { step: 2 } },
+                { name: 'AvailabilityGraph', props: { elephant: elephant, cigar: cigar }},
+                { name: 'AvailabilityExplaination'},
+                { name: 'AvailabilitySecuritySection', props: { step: 1 } },
+                { name: 'AvailabilitySecuritySection', props: { step: 2 } },
             ],
         },
         {
@@ -126,6 +128,20 @@ const SlideShowInner: React.FC = () => {
                 { name: 'CognitiveBiasLogic2' },
                 { name: 'OctoberAnimation' },
                 { name: 'LogicInContextOctober' },
+            ],
+        },
+        {
+            name: 'מראה',
+            revealAt: 0,
+            slides: [
+                { name: 'MirrorQuestionIntroduction' },
+            ],
+        },
+        {
+            name: 'מסתורין',
+            revealAt: 0,
+            slides: [
+                { name: 'MysteryQuestion', requiresAnswer: 'mysteryCandidateRating' },
             ],
         },
         {

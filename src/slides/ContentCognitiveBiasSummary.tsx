@@ -3,18 +3,11 @@ import SubjectMainScreen from '../components/SubjectMainScreen';
 const ContentCognitiveBiasSummary: React.FC = () => {
     return (
         <SubjectMainScreen
-            titleContent="הטייה קוגניטיבית מספר 3 - תוכן"
+            titleContent="הטייה קוגניטיבית מספר 4 - תוכן"
             content={
                 <p>
-                    שהמידע מרגיש נכון או&nbsp;
-                    <span className="font-notoSansHebrew-bold">מסתדר עם תפיסת העולם </span>
-                    שלנו — אנחנו נוטים
-                    <span className="font-notoSansHebrew-bold"> להסכים </span>איתו.
-                    <br />
-                    וכשהוא נוגע&nbsp;
-                    <span className="font-notoSansHebrew-bold">לנושא פחות נעים </span>
-                    או מורכב, אנחנו פתאום
-                    <span className="font-notoSansHebrew-bold"> מהססים </span>או טועים.
+וזו הטיית התוכן, בה אנחנו מושפעים מהמסר והנושא עצמו, לא רק מהמבנה הלוגי: 
+תוכן שתואם את תפיסת העולם שלנו הוא קל לעיבוד, ותוכן שסותר את תפיסתנו מעורר מורכבות ופחות קל לעיבוד.
                 </p>
             }
         />
