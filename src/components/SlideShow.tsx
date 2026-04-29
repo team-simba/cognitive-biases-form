@@ -66,7 +66,6 @@ const SlideShowInner: React.FC = () => {
         },
         {
             name: 'עיגון',
-
             revealAt: 2,
             slides: [
                 { name: 'AnchoringWheel', requiresAnswer: 'fortuneWheel' },
@@ -132,9 +131,22 @@ const SlideShowInner: React.FC = () => {
         },
         {
             name: 'מראה',
-            revealAt: 0,
+            revealAt: 3,
             slides: [
-                { name: 'MirrorQuestionIntroduction' },
+                { name: 'MirrorQuestionIntroduction', props: { step: 1 } },
+                {
+                    name: 'MirrorQuestionIntroduction',
+                    props: { step: 2 },
+                    requiresAnswer: 'mirrorClassmateChoice',
+                },
+                {
+                    name: 'MirrorQuestionIntroduction',
+                    props: { step: 3 },
+                    requiresAnswer: 'mirrorOwnSameChoice',
+                },
+                { name: 'MirrorBiasGraph' },
+                { name: 'OctoberAnimation' },
+                { name: 'MirrorBiasSecurity' },
             ],
         },
         {
@@ -148,13 +160,12 @@ const SlideShowInner: React.FC = () => {
             name: 'אישוש',
             revealAt: 0,
             slides: [
-                { name: 'PrimeMinister' },
-                { name: 'MysteryBias', props: { mystery: mystery } },
-                { name: 'ConfirmationBiasAns', props: { step: 1 } },
-                { name: 'ConfirmationBiasAns', props: { step: 2 } },
-                { name: 'ConfirmationBias' },
+                { name: 'ConfirmationBiasIntro' },
+                { name: 'ConfirmationBiasCycle' },
+                { name: 'ConfirmationBiasVenn' },
+                { name: 'ConfirmationBiasDefinition' },
                 { name: 'OctoberAnimation' },
-                { name: 'Conception' },
+                { name: 'ConfirmationBiasSecurity' },
             ],
         },
         {
@@ -311,7 +322,13 @@ const SlideShowInner: React.FC = () => {
                 </nav>
                 <div className="flex-1 flex items-center justify-center">
                     <div className="w-full h-full flex items-center justify-center transition-all duration-300">
-                        {CurrentComponent && <CurrentComponent {...currentProps} onAdvance={onAdvance} />}
+                        {CurrentComponent && (
+                            <CurrentComponent
+                                {...currentProps}
+                                onAdvance={onAdvance}
+                                isFirstVisit={isFirstVisit}
+                            />
+                        )}
                     </div>
                 </div>
             </div>

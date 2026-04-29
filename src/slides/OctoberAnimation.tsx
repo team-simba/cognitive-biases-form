@@ -1,7 +1,17 @@
 import AnimatedDiamondText from '../components/AnimatedDiamondText/AnimatedDiamondText';
 
-const OctoberAnimation: React.FC = () => {
-    return <AnimatedDiamondText text="ובהקשר ה-7.10" />;
+interface OctoberAnimationProps {
+    onAdvance?: () => void;
+    isFirstVisit?: boolean;
+}
+
+const OctoberAnimation: React.FC<OctoberAnimationProps> = ({ onAdvance, isFirstVisit }) => {
+    return (
+        <AnimatedDiamondText
+            text="ובהקשר בטחוני"
+            onComplete={isFirstVisit ? onAdvance : undefined}
+        />
+    );
 };
 
 export default OctoberAnimation;
