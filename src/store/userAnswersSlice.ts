@@ -14,6 +14,8 @@ interface UserAnswersState {
     cigarAnswerTime: number | null;
     formalLogicAnswer: string[] | null;
     mysteryCandidateRating: 1 | 2 | 3 | 4 | null;
+    mirrorClassmateChoice: 'א' | 'ב' | null;
+    mirrorOwnSameChoice: boolean | null;
 }
 
 const initialState: UserAnswersState = {
@@ -28,6 +30,8 @@ const initialState: UserAnswersState = {
     cigarAnswerTime: null,
     formalLogicAnswer: null,
     mysteryCandidateRating: null,
+    mirrorClassmateChoice: null,
+    mirrorOwnSameChoice: null,
 };
 
 const userAnswersSlice = createSlice({
@@ -67,6 +71,12 @@ const userAnswersSlice = createSlice({
         setMysteryCandidateRating(state, action: PayloadAction<1 | 2 | 3 | 4>) {
             state.mysteryCandidateRating = action.payload;
         },
+        setMirrorClassmateChoice(state, action: PayloadAction<'א' | 'ב'>) {
+            state.mirrorClassmateChoice = action.payload;
+        },
+        setMirrorOwnSameChoice(state, action: PayloadAction<boolean>) {
+            state.mirrorOwnSameChoice = action.payload;
+        },
     },
 });
 
@@ -82,6 +92,8 @@ export const {
     setCigarAnswerTime,
     setFormalLogicAnswer,
     setMysteryCandidateRating,
+    setMirrorClassmateChoice,
+    setMirrorOwnSameChoice,
 } = userAnswersSlice.actions;
 
 export default userAnswersSlice.reducer;

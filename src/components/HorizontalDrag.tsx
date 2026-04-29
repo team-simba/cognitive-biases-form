@@ -67,7 +67,7 @@ const HorizontalDrag: React.FC<HorizontalDragProps> = ({ onValueChange, disabled
 
     return (
         <div ref={containerRef} className="relative select-none">
-            <div className="absolute left-[21vw] top-[57vh] w-[90vw] h-[0.4vw] bg-anchor rounded-full mb-[10vw] z-0">
+            <div className="absolute left-[21vw] top-[50vh] w-[90vw] h-[0.4vw] bg-anchor rounded-full mb-[10vw] z-0">
                 <div
                     style={{ left: `${positionVW}%` }}
                     className="absolute bottom-0 -translate-x-1/2 flex flex-col justify-center items-center select-none"
