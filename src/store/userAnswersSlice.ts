@@ -14,6 +14,10 @@ interface UserAnswersState {
     cigarAnswerTime: number | null;
     formalLogicAnswer: string[] | null;
     mysteryCandidateRating: 1 | 2 | 3 | 4 | null;
+    mysterySecretFinding: 'negative' | 'positive' | null;
+    lossAversionAccept: boolean | null;
+    primeMinisterDiseaseChoice: 'planA' | 'planB' | null;
+    tryAgainChoice: 'planA' | 'planB' | null;
 }
 
 const initialState: UserAnswersState = {
@@ -28,6 +32,10 @@ const initialState: UserAnswersState = {
     cigarAnswerTime: null,
     formalLogicAnswer: null,
     mysteryCandidateRating: null,
+    mysterySecretFinding: null,
+    lossAversionAccept: null,
+    primeMinisterDiseaseChoice: null,
+    tryAgainChoice: null,
 };
 
 const userAnswersSlice = createSlice({
@@ -67,6 +75,18 @@ const userAnswersSlice = createSlice({
         setMysteryCandidateRating(state, action: PayloadAction<1 | 2 | 3 | 4>) {
             state.mysteryCandidateRating = action.payload;
         },
+        setMysterySecretFinding(state, action: PayloadAction<'negative' | 'positive'>) {
+            state.mysterySecretFinding = action.payload;
+        },
+        setLossAversionAccept(state, action: PayloadAction<boolean>) {
+            state.lossAversionAccept = action.payload;
+        },
+        setPrimeMinisterDiseaseChoice(state, action: PayloadAction<'planA' | 'planB'>) {
+            state.primeMinisterDiseaseChoice = action.payload;
+        },
+        setTryAgainChoice(state, action: PayloadAction<'planA' | 'planB'>) {
+            state.tryAgainChoice = action.payload;
+        },
     },
 });
 
@@ -82,6 +102,10 @@ export const {
     setCigarAnswerTime,
     setFormalLogicAnswer,
     setMysteryCandidateRating,
+    setMysterySecretFinding,
+    setLossAversionAccept,
+    setPrimeMinisterDiseaseChoice,
+    setTryAgainChoice,
 } = userAnswersSlice.actions;
 
 export default userAnswersSlice.reducer;

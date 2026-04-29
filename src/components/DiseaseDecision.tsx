@@ -8,23 +8,69 @@ import StaticBackground from '../assets/LeftShapes/disease-decision.svg';
 import FloatingAnimation from '../components/FloatingAnimations';
 import { LeftShapes } from '../data/floating-animations';
 
+type PlanChoice = 'planA' | 'planB';
+
 interface DiseaseDecisionProps {
     title: string;
     planA: string;
     planB: string;
+    savedAnswer: PlanChoice | null;
+    onSubmit: (choice: PlanChoice) => void;
 }
 
-const DiseaseDecision: React.FC<DiseaseDecisionProps> = ({ title, planA, planB }) => {
-    const [choice, setChoice] = useState<string>('');
-    const [isSubmitted, setIsSubmitted] = useState(false);
+const DiseaseDecision: React.FC<DiseaseDecisionProps> = ({
+    title,
+    planA,
+    planB,
+    savedAnswer,
+    onSubmit,
+}) => {
+    const alreadyAnswered = savedAnswer !== null;
+    const [choice, setChoice] = useState<PlanChoice | null>(savedAnswer);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isSubmitted, setIsSubmitted] = useState(alreadyAnswered);
 
-    const handleSelectChoice = (selected: string) => {
+    const handleSelectChoice = (selected: PlanChoice) => {
+        if (isSubmitted || isLoading) return;
         setChoice(selected);
     };
 
     const handleSubmit = () => {
-        if (!choice || isSubmitted) return;
-        setIsSubmitted(true);
+        if (!choice || isSubmitted || isLoading) return;
+        setIsLoading(true);
+        setTimeout(() => {
+            onSubmit(choice);
+            setIsLoading(false);
+            setIsSubmitted(true);
+        }, 800);
+    };
+
+    const renderPlanButton = (planValue: PlanChoice, label: string) => {
+        const isSelected = choice === planValue;
+        const isLocked = isSubmitted || isLoading;
+        return (
+            <button
+                onClick={() => handleSelectChoice(planValue)}
+                disabled={isLocked}
+                className={`
+                    shape-angled-top
+                    w-[9.5vw] h-[3.7vw]
+                    flex items-center justify-center
+                    text-white text-[1.78vw] font-medium
+                    transition-all duration-200
+                    ${
+                        isSelected
+                            ? 'bg-blue-dark scale-105 drop-shadow-primary'
+                            : isLocked
+                              ? 'bg-secondary opacity-60'
+                              : 'bg-secondary hover:bg-blue-mid drop-shadow-dark cursor-pointer'
+                    }
+                    ${isLocked ? 'cursor-not-allowed' : ''}
+                `}
+            >
+                {label}
+            </button>
+        );
     };
 
     return (
@@ -38,30 +84,12 @@ const DiseaseDecision: React.FC<DiseaseDecisionProps> = ({ title, planA, planB }
                         <span className="font-notoSansHebrew-semiBold">בחרו בתכנית לפעולה:</span>
                     </p>
                     <div className="text-[1.78vw]">
-                        <div className="flex g-1 mt-[1vw] ">
-                            <Button
-                                content="תכנית א׳"
-                                onClick={() => handleSelectChoice('תכנית א׳')}
-                                inputProvided={true}
-                                className={`shape-angled-top transition-all duration-300 ${
-                                    choice === 'תכנית א׳'
-                                        ? 'bg-blue-dark scale-105'
-                                        : 'bg-secondary hover:bg-blue-mid'
-                                }`}
-                            ></Button>
+                        <div className="flex g-1 mt-[1vw] items-center">
+                            {renderPlanButton('planA', 'תכנית א׳')}
                             <span className="font-notoSansHebrew-bold">{planA}</span>
                         </div>
-                        <div className="flex g-1 mt-[1vw]">
-                            <Button
-                                content="תכנית ב׳"
-                                onClick={() => handleSelectChoice('תכנית ב׳')}
-                                inputProvided={true}
-                                className={`shape-angled-top transition-all duration-300 ${
-                                    choice === 'תכנית ב׳'
-                                        ? 'bg-blue-dark scale-105'
-                                        : 'bg-secondary hover:bg-blue-mid'
-                                }`}
-                            ></Button>
+                        <div className="flex g-1 mt-[1vw] items-center">
+                            {renderPlanButton('planB', 'תכנית ב׳')}
                             <b className="whitespace-pre-line">{planB}</b>
                         </div>
                     </div>
@@ -76,6 +104,8 @@ const DiseaseDecision: React.FC<DiseaseDecisionProps> = ({ title, planA, planB }
                 <Button
                     content="הגשה"
                     inputProvided={!!choice}
+                    marked={isSubmitted || alreadyAnswered}
+                    loading={isLoading}
                     className="shape-angled-top"
                     onClick={handleSubmit}
                 />

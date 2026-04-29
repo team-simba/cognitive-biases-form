@@ -54,6 +54,13 @@ const SlideShowInner: React.FC = () => {
     const data15 = createData(35);
     const data65 = createData(45);
 
+    const mysteryData: { rating: 1 | 2 | 3 | 4; blue: number; green: number }[] = [
+        { rating: 1, blue: 38, green: 4 },
+        { rating: 2, blue: 42, green: 12 },
+        { rating: 3, blue: 15, green: 36 },
+        { rating: 4, blue: 5, green: 48 },
+    ];
+
     const subjects: Subject[] = [
         {
             name: 'הטיות קוגניטיביות',
@@ -64,72 +71,72 @@ const SlideShowInner: React.FC = () => {
                 { name: 'CognitiveBiasDisclaimer' },
             ],
         },
-        {
-            name: 'עיגון',
+        // {
+        //     name: 'עיגון',
 
-            revealAt: 2,
-            slides: [
-                { name: 'AnchoringWheel', requiresAnswer: 'fortuneWheel' },
-                { name: 'AnchoringQuestion', requiresAnswer: 'africanCountries' },
-                {
-                    name: 'AnchoringGraph',
-                    props: { dataFor15: data15, dataFor65: data65, step: 1 },
-                },
-                {
-                    name: 'AnchoringGraph',
-                    props: { dataFor15: data15, dataFor65: data65, step: 2 },
-                },
-                { name: 'AnchoringSecuritySection', props: { step: 1 } },
-                { name: 'AnchoringSecuritySection', props: { step: 2 } },
-            ],
-        },
-        {
-            name: 'קלסיפיקציה',
-            revealAt: 1,
-            slides: [
-                { name: 'ClassificationQuestion', requiresAnswer: 'plumberProbability' },
-                { name: 'ClassificationExplanation', props: { data: data },},
-                { name: 'ClassificationSecuritySection', props: { step: 1 } },
-                { name: 'ClassificationSecuritySection', props: { step: 2 } },
-            ],
-        },
-        {
-            name: 'זמינות',
-            revealAt: 2,
-            slides: [
-                { name: 'AvailabilityNames', blockNavigation: true, autoAdvanceAfter: 10000 },
-                { name: 'AvailabilityQuestion', requiresAnswer: 'availabilityAnswer' },
-                { name: 'AvailabilityGraph', props: { elephant: elephant, cigar: cigar }},
-                { name: 'AvailabilityExplaination'},
-                { name: 'AvailabilitySecuritySection', props: { step: 1 } },
-                { name: 'AvailabilitySecuritySection', props: { step: 2 } },
-            ],
-        },
-        {
-            name: 'תוכן',
-            revealAt: 2,
-            slides: [
-                { name: 'ContentQuestion1', requiresAnswer: 'elephantAnswer' },
-                { name: 'ContentQuestion2', requiresAnswer: 'cigarAnswer' },
-                {
-                    name: 'ContentGraph',
-                    props: { elephant: elephant, cigar: cigar },
-                },
-                { name: 'ContentCognitiveBiasSummary' },
-            ],
-        },
-        {
-            name: 'לוגיקה פורמלית',
-            revealAt: 2,
-            slides: [
-                { name: 'CognitiveBiasLogic' },
-                { name: 'FormalLogicQuestion', requiresAnswer: 'formalLogicAnswer' },
-                { name: 'ResultGraph', props: { percentage: 80 } },
-                { name: 'CognitiveBiasLogic2' },
-                { name: 'OctoberAnimation' },
-                { name: 'LogicInContextOctober' },
-            ],
-        },
+        //     revealAt: 2,
+        //     slides: [
+        //         { name: 'AnchoringWheel', requiresAnswer: 'fortuneWheel' },
+        //         { name: 'AnchoringQuestion', requiresAnswer: 'africanCountries' },
+        //         {
+        //             name: 'AnchoringGraph',
+        //             props: { dataFor15: data15, dataFor65: data65, step: 1 },
+        //         },
+        //         {
+        //             name: 'AnchoringGraph',
+        //             props: { dataFor15: data15, dataFor65: data65, step: 2 },
+        //         },
+        //         { name: 'AnchoringSecuritySection', props: { step: 1 } },
+        //         { name: 'AnchoringSecuritySection', props: { step: 2 } },
+        //     ],
+        // },
+        // {
+        //     name: 'קלסיפיקציה',
+        //     revealAt: 1,
+        //     slides: [
+        //         { name: 'ClassificationQuestion', requiresAnswer: 'plumberProbability' },
+        //         { name: 'ClassificationExplanation', props: { data: data },},
+        //         { name: 'ClassificationSecuritySection', props: { step: 1 } },
+        //         { name: 'ClassificationSecuritySection', props: { step: 2 } },
+        //     ],
+        // },
+        // {
+        //     name: 'זמינות',
+        //     revealAt: 2,
+        //     slides: [
+        //         { name: 'AvailabilityNames', blockNavigation: true, autoAdvanceAfter: 10000 },
+        //         { name: 'AvailabilityQuestion', requiresAnswer: 'availabilityAnswer' },
+        //         { name: 'AvailabilityGraph', props: { elephant: elephant, cigar: cigar }},
+        //         { name: 'AvailabilityExplaination'},
+        //         { name: 'AvailabilitySecuritySection', props: { step: 1 } },
+        //         { name: 'AvailabilitySecuritySection', props: { step: 2 } },
+        //     ],
+        // },
+        // {
+        //     name: 'תוכן',
+        //     revealAt: 2,
+        //     slides: [
+        //         { name: 'ContentQuestion1', requiresAnswer: 'elephantAnswer' },
+        //         { name: 'ContentQuestion2', requiresAnswer: 'cigarAnswer' },
+        //         {
+        //             name: 'ContentGraph',
+        //             props: { elephant: elephant, cigar: cigar },
+        //         },
+        //         { name: 'ContentCognitiveBiasSummary' },
+        //     ],
+        // },
+        // {
+        //     name: 'לוגיקה פורמלית',
+        //     revealAt: 2,
+        //     slides: [
+        //         { name: 'CognitiveBiasLogic' },
+        //         { name: 'FormalLogicQuestion', requiresAnswer: 'formalLogicAnswer' },
+        //         { name: 'ResultGraph', props: { percentage: 80 } },
+        //         { name: 'CognitiveBiasLogic2' },
+        //         { name: 'OctoberAnimation' },
+        //         { name: 'LogicInContextOctober' },
+        //     ],
+        // },
         {
             name: 'מראה',
             revealAt: 0,
@@ -142,28 +149,20 @@ const SlideShowInner: React.FC = () => {
             revealAt: 0,
             slides: [
                 { name: 'MysteryQuestion', requiresAnswer: 'mysteryCandidateRating' },
-            ],
-        },
-        {
-            name: 'אישוש',
-            revealAt: 0,
-            slides: [
-                { name: 'PrimeMinister' },
-                { name: 'MysteryBias', props: { mystery: mystery } },
-                { name: 'ConfirmationBiasAns', props: { step: 1 } },
-                { name: 'ConfirmationBiasAns', props: { step: 2 } },
-                { name: 'ConfirmationBias' },
-                { name: 'OctoberAnimation' },
-                { name: 'Conception' },
+                { name: 'MysteryResultsIntro' },
+                {
+                    name: 'MysteryGraph',
+                    props: { data: mysteryData },
+                },
             ],
         },
         {
             name: 'קבלת החלטות',
             revealAt: 0,
             slides: [
-                { name: 'DecisionMaking' },
-                { name: 'PrimeMinisterDisease' },
-                { name: 'TryAgain' },
+                { name: 'LossAversion', requiresAnswer: 'lossAversionAccept' },
+                { name: 'PrimeMinisterDisease', requiresAnswer: 'primeMinisterDiseaseChoice' },
+                { name: 'TryAgain', requiresAnswer: 'tryAgainChoice' },
                 { name: 'WhatHappenedHere', props: { dead: dead, save: save } },
                 { name: 'WhatHappenedHereSummary', props: { summary: summary } },
                 { name: 'OctoberContext', props: { step: 1 } },
@@ -250,12 +249,16 @@ const SlideShowInner: React.FC = () => {
         return () => clearTimeout(timer);
     }, [flatIndex, currentSlide.autoAdvanceAfter, totalSlides, isFirstVisit]);
 
-    const [CurrentComponent, setCurrentComponent] = useState<React.ComponentType<any> | null>(null);
+    const [loadedSlide, setLoadedSlide] = useState<{
+        name: string;
+        Component: React.ComponentType<any>;
+    } | null>(null);
 
     useEffect(() => {
         let cancelled = false;
-        import(`../slides/${currentSlide.name}`).then((mod) => {
-            if (!cancelled) setCurrentComponent(() => mod.default);
+        const targetName = currentSlide.name;
+        import(`../slides/${targetName}`).then((mod) => {
+            if (!cancelled) setLoadedSlide({ name: targetName, Component: mod.default });
         });
         return () => { cancelled = true; };
     }, [currentSlide.name]);
@@ -311,7 +314,9 @@ const SlideShowInner: React.FC = () => {
                 </nav>
                 <div className="flex-1 flex items-center justify-center">
                     <div className="w-full h-full flex items-center justify-center transition-all duration-300">
-                        {CurrentComponent && <CurrentComponent {...currentProps} onAdvance={onAdvance} />}
+                        {loadedSlide && loadedSlide.name === currentSlide.name && (
+                            <loadedSlide.Component {...currentProps} onAdvance={onAdvance} />
+                        )}
                     </div>
                 </div>
             </div>

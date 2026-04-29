@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import type { RootState } from '../store/store';
@@ -6,19 +6,46 @@ import type { RootState } from '../store/store';
 import Background from '../components/Background';
 import Button from '../components/Button';
 import TitleSideLine from '../components/TitleSideLine';
-import { setMysteryCandidateRating } from '../store/userAnswersSlice';
+import {
+    setMysteryCandidateRating,
+    setMysterySecretFinding,
+} from '../store/userAnswersSlice';
 
 type Rating = 1 | 2 | 3 | 4;
 
 const ratings: Rating[] = [4, 3, 2, 1];
 
+const NEGATIVE_CONTENT =
+    'בחודשים האחרונים הוא דוחף לקדם מהלכים התקפיים למרות התנגדות מקצועית, מה שמעלה את הסיכון להסלמה לא מתוכננת.';
+const POSITIVE_CONTENT =
+    'במהלך השנה האחרונה הוא הוביל שינוי במדיניות לאורך הגבול, ובתקופה הזו נרשמה ירידה חדה במספר התקריות האלימות.';
+const SECRET_PREFIX = 'לפי דיווח שנאמר בחשאי לאחד מאנשי הקשר שלנו, ';
+const PUBLIC_PREFIX = 'לפי כתבה שפורסמה בכלי תקשורת מרכזי במדינה, ';
+
 const MysteryQuestion: React.FC = () => {
     const dispatch = useDispatch();
     const savedAnswer = useSelector((state: RootState) => state.userAnswers.mysteryCandidateRating);
+    const secretFinding = useSelector(
+        (state: RootState) => state.userAnswers.mysterySecretFinding
+    );
     const alreadyAnswered = savedAnswer !== null;
     const [selected, setSelected] = useState<Rating | null>(savedAnswer);
     const [isLoading, setIsLoading] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(alreadyAnswered);
+
+    useEffect(() => {
+        if (secretFinding === null) {
+            const choice: 'negative' | 'positive' =
+                Math.random() < 0.5 ? 'negative' : 'positive';
+            dispatch(setMysterySecretFinding(choice));
+        }
+    }, [secretFinding, dispatch]);
+
+    const secretIsNegative = secretFinding !== 'positive';
+    const negativeText =
+        (secretIsNegative ? SECRET_PREFIX : PUBLIC_PREFIX) + NEGATIVE_CONTENT;
+    const positiveText =
+        (secretIsNegative ? PUBLIC_PREFIX : SECRET_PREFIX) + POSITIVE_CONTENT;
 
     const handleSubmit = () => {
         if (selected === null || isLoading || isSubmitted) return;
@@ -46,9 +73,7 @@ const MysteryQuestion: React.FC = () => {
                         >
                             <span className="font-notoSansHebrew-bold">ממצא שלילי:</span>
                             <br />
-                            לפי דיווח שנאמר בחשאי לאחד מאנשי הקשר שלנו, בחודשים האחרונים הוא דוחף
-                            לקדם מהלכים התקפיים למרות התנגדות מקצועית, מה שמעלה את הסיכון להסלמה לא
-                            מתוכננת.
+                            {negativeText}
                         </p>
                     </div>
                     <div className="flex-1 max-w-[42vw] bg-white/50 rounded-[1vw] shadow-[0_0.5vw_0.5vw_rgba(0,0,0,0.1)] p-[1.5vw] flex items-center">
@@ -58,9 +83,7 @@ const MysteryQuestion: React.FC = () => {
                         >
                             <span className="font-notoSansHebrew-bold">ממצא חיובי:</span>
                             <br />
-                            לפי כתבה שפורסמה בכלי תקשורת מרכזי במדינה, במהלך השנה האחרונה הוא הוביל
-                            שינוי במדיניות לאורך הגבול, ובתקופה הזו נרשמה ירידה חדה במספר התקריות
-                            האלימות.
+                            {positiveText}
                         </p>
                     </div>
                 </div>
