@@ -71,7 +71,7 @@ const ClassificationQuestion: React.FC = () => {
                     disabled={isSubmitted || isLoading}
                     initialValue={savedAnswer}
                 />
-                <div className="w-full flex justify-center pt-[36vw]">
+                <div className="absolute bottom-[14vh] left-0 right-0 flex justify-center">
                     <Button
                         marked={isSubmitted || alreadyAnswered}
                         loading={isLoading}

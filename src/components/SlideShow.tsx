@@ -71,77 +71,89 @@ const SlideShowInner: React.FC = () => {
                 { name: 'CognitiveBiasDisclaimer' },
             ],
         },
-        // {
-        //     name: 'עיגון',
-
-        //     revealAt: 2,
-        //     slides: [
-        //         { name: 'AnchoringWheel', requiresAnswer: 'fortuneWheel' },
-        //         { name: 'AnchoringQuestion', requiresAnswer: 'africanCountries' },
-        //         {
-        //             name: 'AnchoringGraph',
-        //             props: { dataFor15: data15, dataFor65: data65, step: 1 },
-        //         },
-        //         {
-        //             name: 'AnchoringGraph',
-        //             props: { dataFor15: data15, dataFor65: data65, step: 2 },
-        //         },
-        //         { name: 'AnchoringSecuritySection', props: { step: 1 } },
-        //         { name: 'AnchoringSecuritySection', props: { step: 2 } },
-        //     ],
-        // },
-        // {
-        //     name: 'קלסיפיקציה',
-        //     revealAt: 1,
-        //     slides: [
-        //         { name: 'ClassificationQuestion', requiresAnswer: 'plumberProbability' },
-        //         { name: 'ClassificationExplanation', props: { data: data },},
-        //         { name: 'ClassificationSecuritySection', props: { step: 1 } },
-        //         { name: 'ClassificationSecuritySection', props: { step: 2 } },
-        //     ],
-        // },
-        // {
-        //     name: 'זמינות',
-        //     revealAt: 2,
-        //     slides: [
-        //         { name: 'AvailabilityNames', blockNavigation: true, autoAdvanceAfter: 10000 },
-        //         { name: 'AvailabilityQuestion', requiresAnswer: 'availabilityAnswer' },
-        //         { name: 'AvailabilityGraph', props: { elephant: elephant, cigar: cigar }},
-        //         { name: 'AvailabilityExplaination'},
-        //         { name: 'AvailabilitySecuritySection', props: { step: 1 } },
-        //         { name: 'AvailabilitySecuritySection', props: { step: 2 } },
-        //     ],
-        // },
-        // {
-        //     name: 'תוכן',
-        //     revealAt: 2,
-        //     slides: [
-        //         { name: 'ContentQuestion1', requiresAnswer: 'elephantAnswer' },
-        //         { name: 'ContentQuestion2', requiresAnswer: 'cigarAnswer' },
-        //         {
-        //             name: 'ContentGraph',
-        //             props: { elephant: elephant, cigar: cigar },
-        //         },
-        //         { name: 'ContentCognitiveBiasSummary' },
-        //     ],
-        // },
-        // {
-        //     name: 'לוגיקה פורמלית',
-        //     revealAt: 2,
-        //     slides: [
-        //         { name: 'CognitiveBiasLogic' },
-        //         { name: 'FormalLogicQuestion', requiresAnswer: 'formalLogicAnswer' },
-        //         { name: 'ResultGraph', props: { percentage: 80 } },
-        //         { name: 'CognitiveBiasLogic2' },
-        //         { name: 'OctoberAnimation' },
-        //         { name: 'LogicInContextOctober' },
-        //     ],
-        // },
         {
-            name: 'מראה',
+            name: 'עיגון',
+            revealAt: 2,
+            slides: [
+                { name: 'AnchoringWheel', requiresAnswer: 'fortuneWheel' },
+                { name: 'AnchoringQuestion', requiresAnswer: 'africanCountries' },
+                {
+                    name: 'AnchoringGraph',
+                    props: { dataFor15: data15, dataFor65: data65, step: 1 },
+                },
+                {
+                    name: 'AnchoringGraph',
+                    props: { dataFor15: data15, dataFor65: data65, step: 2 },
+                },
+                { name: 'AnchoringSecuritySection', props: { step: 1 } },
+                { name: 'AnchoringSecuritySection', props: { step: 2 } },
+            ],
+        },
+        {
+            name: 'קלסיפיקציה',
+            revealAt: 1,
+            slides: [
+                { name: 'ClassificationQuestion', requiresAnswer: 'plumberProbability' },
+                { name: 'ClassificationExplanation', props: { data: data },},
+                { name: 'ClassificationSecuritySection', props: { step: 1 } },
+                { name: 'ClassificationSecuritySection', props: { step: 2 } },
+            ],
+        },
+        {
+            name: 'זמינות',
+            revealAt: 2,
+            slides: [
+                { name: 'AvailabilityNames', blockNavigation: true, autoAdvanceAfter: 10000 },
+                { name: 'AvailabilityQuestion', requiresAnswer: 'availabilityAnswer' },
+                { name: 'AvailabilityGraph', props: { elephant: elephant, cigar: cigar }},
+                { name: 'AvailabilityExplaination'},
+                { name: 'AvailabilitySecuritySection', props: { step: 1 } },
+                { name: 'AvailabilitySecuritySection', props: { step: 2 } },
+            ],
+        },
+        {
+            name: 'תוכן',
+            revealAt: 2,
+            slides: [
+                { name: 'ContentQuestion1', requiresAnswer: 'elephantAnswer' },
+                { name: 'ContentQuestion2', requiresAnswer: 'cigarAnswer' },
+                {
+                    name: 'ContentGraph',
+                    props: { elephant: elephant, cigar: cigar },
+                },
+                { name: 'ContentCognitiveBiasSummary' },
+            ],
+        },
+        {
+            name: 'לוגיקה פורמלית',
             revealAt: 0,
             slides: [
-                { name: 'MirrorQuestionIntroduction' },
+                { name: 'CognitiveBiasLogic' },
+                { name: 'FormalLogicQuestion', requiresAnswer: 'formalLogicAnswer' },
+                { name: 'ResultGraph', props: { percentage: 80 } },
+                { name: 'CognitiveBiasLogic2' },
+                { name: 'OctoberAnimation' },
+                { name: 'LogicInContextOctober' },
+            ],
+        },
+        {
+            name: 'מראה',
+            revealAt: 3,
+            slides: [
+                { name: 'MirrorQuestionIntroduction', props: { step: 1 } },
+                {
+                    name: 'MirrorQuestionIntroduction',
+                    props: { step: 2 },
+                    requiresAnswer: 'mirrorClassmateChoice',
+                },
+                {
+                    name: 'MirrorQuestionIntroduction',
+                    props: { step: 3 },
+                    requiresAnswer: 'mirrorOwnSameChoice',
+                },
+                { name: 'MirrorBiasGraph' },
+                { name: 'OctoberAnimation' },
+                { name: 'MirrorBiasSecurity' },
             ],
         },
         {
@@ -154,6 +166,18 @@ const SlideShowInner: React.FC = () => {
                     name: 'MysteryGraph',
                     props: { data: mysteryData },
                 },
+            ],
+        },
+        {
+            name: 'אישוש',
+            revealAt: 0,
+            slides: [
+                { name: 'ConfirmationBiasIntro' },
+                { name: 'ConfirmationBiasCycle' },
+                { name: 'ConfirmationBiasVenn' },
+                { name: 'ConfirmationBiasDefinition' },
+                { name: 'OctoberAnimation' },
+                { name: 'ConfirmationBiasSecurity' },
             ],
         },
         {

@@ -18,6 +18,8 @@ interface UserAnswersState {
     lossAversionAccept: boolean | null;
     primeMinisterDiseaseChoice: 'planA' | 'planB' | null;
     tryAgainChoice: 'planA' | 'planB' | null;
+    mirrorClassmateChoice: 'א' | 'ב' | null;
+    mirrorOwnSameChoice: boolean | null;
 }
 
 const initialState: UserAnswersState = {
@@ -36,6 +38,8 @@ const initialState: UserAnswersState = {
     lossAversionAccept: null,
     primeMinisterDiseaseChoice: null,
     tryAgainChoice: null,
+    mirrorClassmateChoice: null,
+    mirrorOwnSameChoice: null,
 };
 
 const userAnswersSlice = createSlice({
@@ -87,6 +91,12 @@ const userAnswersSlice = createSlice({
         setTryAgainChoice(state, action: PayloadAction<'planA' | 'planB'>) {
             state.tryAgainChoice = action.payload;
         },
+        setMirrorClassmateChoice(state, action: PayloadAction<'א' | 'ב'>) {
+            state.mirrorClassmateChoice = action.payload;
+        },
+        setMirrorOwnSameChoice(state, action: PayloadAction<boolean>) {
+            state.mirrorOwnSameChoice = action.payload;
+        },
     },
 });
 
@@ -106,6 +116,8 @@ export const {
     setLossAversionAccept,
     setPrimeMinisterDiseaseChoice,
     setTryAgainChoice,
+    setMirrorClassmateChoice,
+    setMirrorOwnSameChoice,
 } = userAnswersSlice.actions;
 
 export default userAnswersSlice.reducer;
