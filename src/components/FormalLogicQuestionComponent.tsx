@@ -48,7 +48,7 @@ const FormalLogicQuestionComponent: React.FC<FormalLogicProps> = ({
     return (
         <Background>
             <div className="flex flex-col padding-page g-1">
-                <TitleSideLine text="הטייה קוגנטיבית מספר 4 - לוגיקה פורמלית" />
+                <TitleSideLine text="הטייה קוגנטיבית מספר 5 - לוגיקה פורמלית" />
                 <p className="font-notoSansHebrew-regular">{intro}</p>
                 <div className="flex gap-[3.125vw] flex-wrap justify-center">
                     {cardsContent.map((content, i) => (
