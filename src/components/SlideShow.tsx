@@ -54,6 +54,13 @@ const SlideShowInner: React.FC = () => {
     const data15 = createData(35);
     const data65 = createData(45);
 
+    const mysteryData: { rating: 1 | 2 | 3 | 4; blue: number; green: number }[] = [
+        { rating: 1, blue: 38, green: 4 },
+        { rating: 2, blue: 42, green: 12 },
+        { rating: 3, blue: 15, green: 36 },
+        { rating: 4, blue: 5, green: 48 },
+    ];
+
     const subjects: Subject[] = [
         {
             name: 'הטיות קוגניטיביות',
@@ -119,7 +126,7 @@ const SlideShowInner: React.FC = () => {
         },
         {
             name: 'לוגיקה פורמלית',
-            revealAt: 2,
+            revealAt: 0,
             slides: [
                 { name: 'CognitiveBiasLogic' },
                 { name: 'FormalLogicQuestion', requiresAnswer: 'formalLogicAnswer' },
@@ -154,6 +161,11 @@ const SlideShowInner: React.FC = () => {
             revealAt: 0,
             slides: [
                 { name: 'MysteryQuestion', requiresAnswer: 'mysteryCandidateRating' },
+                { name: 'MysteryResultsIntro' },
+                {
+                    name: 'MysteryGraph',
+                    props: { data: mysteryData },
+                },
             ],
         },
         {
@@ -172,9 +184,9 @@ const SlideShowInner: React.FC = () => {
             name: 'קבלת החלטות',
             revealAt: 0,
             slides: [
-                { name: 'DecisionMaking' },
-                { name: 'PrimeMinisterDisease' },
-                { name: 'TryAgain' },
+                { name: 'LossAversion', requiresAnswer: 'lossAversionAccept' },
+                { name: 'PrimeMinisterDisease', requiresAnswer: 'primeMinisterDiseaseChoice' },
+                { name: 'TryAgain', requiresAnswer: 'tryAgainChoice' },
                 { name: 'WhatHappenedHere', props: { dead: dead, save: save } },
                 { name: 'WhatHappenedHereSummary', props: { summary: summary } },
                 { name: 'OctoberContext', props: { step: 1 } },
@@ -261,12 +273,16 @@ const SlideShowInner: React.FC = () => {
         return () => clearTimeout(timer);
     }, [flatIndex, currentSlide.autoAdvanceAfter, totalSlides, isFirstVisit]);
 
-    const [CurrentComponent, setCurrentComponent] = useState<React.ComponentType<any> | null>(null);
+    const [loadedSlide, setLoadedSlide] = useState<{
+        name: string;
+        Component: React.ComponentType<any>;
+    } | null>(null);
 
     useEffect(() => {
         let cancelled = false;
-        import(`../slides/${currentSlide.name}`).then((mod) => {
-            if (!cancelled) setCurrentComponent(() => mod.default);
+        const targetName = currentSlide.name;
+        import(`../slides/${targetName}`).then((mod) => {
+            if (!cancelled) setLoadedSlide({ name: targetName, Component: mod.default });
         });
         return () => { cancelled = true; };
     }, [currentSlide.name]);
@@ -322,12 +338,8 @@ const SlideShowInner: React.FC = () => {
                 </nav>
                 <div className="flex-1 flex items-center justify-center">
                     <div className="w-full h-full flex items-center justify-center transition-all duration-300">
-                        {CurrentComponent && (
-                            <CurrentComponent
-                                {...currentProps}
-                                onAdvance={onAdvance}
-                                isFirstVisit={isFirstVisit}
-                            />
+                        {loadedSlide && loadedSlide.name === currentSlide.name && (
+                            <loadedSlide.Component {...currentProps} onAdvance={onAdvance} />
                         )}
                     </div>
                 </div>
