@@ -158,7 +158,7 @@ const SlideShowInner: React.FC = () => {
         },
         {
             name: 'מסתורין',
-            revealAt: 0,
+            revealAt: 2,
             slides: [
                 { name: 'MysteryQuestion', requiresAnswer: 'mysteryCandidateRating' },
                 { name: 'MysteryResultsIntro' },
@@ -181,8 +181,8 @@ const SlideShowInner: React.FC = () => {
             ],
         },
         {
-            name: 'קבלת החלטות',
-            revealAt: 0,
+            name: 'ניסוח',
+            revealAt: 3,
             slides: [
                 { name: 'LossAversion', requiresAnswer: 'lossAversionAccept' },
                 { name: 'PrimeMinisterDisease', requiresAnswer: 'primeMinisterDiseaseChoice' },

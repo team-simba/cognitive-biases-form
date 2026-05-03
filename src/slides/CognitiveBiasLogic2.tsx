@@ -9,7 +9,7 @@ const CognitiveBiasLogic2: React.FC = () => {
     return (
         <Background>
             <div className="flex flex-col padding-page g-1">
-                <TitleSideLine text="הטייה קוגניטיבית מספר 4 - לוגיקה פורמלית" />
+                <TitleSideLine text="הטייה קוגניטיבית מספר 5 - לוגיקה פורמלית" />
                 <Card className="z-10" width="w-[96vw]">
                     <p className="font-notoSansHebrew-regular leading-[2.3vw]">
                         האינטואיציה שלנו אומרת לבדוק את ה־A (כי זו אות ניקוד) וגם את ה־6 (כי הוא
