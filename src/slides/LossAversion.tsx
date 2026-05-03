@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Background from '../components/Background';
 import Card from '../components/Card';
+import SkewButton from '../components/SkewButton';
 import TitleSideLine from '../components/TitleSideLine';
 import VotingChart from '../components/VotingChart/VotingChart';
 import { setLossAversionAccept } from '../store/userAnswersSlice';
@@ -19,36 +20,11 @@ const LossAversion: React.FC = () => {
     );
     const showResults = accepted !== null;
 
-    const handleChoose = (choice: boolean) => {
-        if (showResults) return;
-        dispatch(setLossAversionAccept(choice));
-    };
+    const selectedLabel = accepted === true ? 'כן' : accepted === false ? 'לא' : '';
 
-    const renderChoiceButton = (value: boolean, label: string) => {
-        const isSelected = accepted === value;
-        const isDimmed = showResults && !isSelected;
-        return (
-            <button
-                key={label}
-                disabled={showResults}
-                onClick={() => handleChoose(value)}
-                className={`
-                    w-[8.9vw] h-[3.4vw]
-                    flex items-center justify-center
-                    text-white text-[1.55vw] font-medium
-                    transition-all duration-200
-                    ${
-                        isSelected
-                            ? 'bg-blue-mid drop-shadow-primary rotate-[-5deg]'
-                            : 'bg-secondary drop-shadow-dark hover:bg-blue-mid cursor-pointer'
-                    }
-                    ${isDimmed ? 'cursor-not-allowed opacity-80' : ''}
-                    ${showResults && isSelected ? 'cursor-not-allowed' : ''}
-                `}
-            >
-                {label}
-            </button>
-        );
+    const handleChoose = (label: string) => {
+        if (showResults) return;
+        dispatch(setLossAversionAccept(label === 'כן'));
     };
 
     const questionCard = (
@@ -67,9 +43,9 @@ const LossAversion: React.FC = () => {
             >
                 האם הייתם מסכימים?
             </p>
-            <div className="flex gap-[1.8vw] justify-end">
-                {renderChoiceButton(true, 'כן')}
-                {renderChoiceButton(false, 'לא')}
+            <div className="flex gap-10 justify-end">
+                <SkewButton text="כן" selected={selectedLabel} onSelect={handleChoose} />
+                <SkewButton text="לא" selected={selectedLabel} onSelect={handleChoose} />
             </div>
         </Card>
     );

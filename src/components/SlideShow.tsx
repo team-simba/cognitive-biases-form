@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Provider, useSelector } from 'react-redux';
 
-import DevStateViewer from './DevStateViewer';
 import { store } from '../store/store';
 
 import type { RootState } from '../store/store';
@@ -301,7 +300,6 @@ const SlideShowInner: React.FC = () => {
 
     return (
         <>
-            <DevStateViewer />
             <div className="w-full h-screen flex flex-col bg-gray-100">
                 <nav className="flex gap-2 p-2 bg-white shadow-sm z-20" dir="rtl">
                     {subjects.map((subject, i) => {
@@ -339,7 +337,7 @@ const SlideShowInner: React.FC = () => {
                 <div className="flex-1 flex items-center justify-center">
                     <div className="w-full h-full flex items-center justify-center transition-all duration-300">
                         {loadedSlide && loadedSlide.name === currentSlide.name && (
-                            <loadedSlide.Component {...currentProps} onAdvance={onAdvance} />
+                            <loadedSlide.Component {...currentProps} onAdvance={onAdvance} isFirstVisit={isFirstVisit} />
                         )}
                     </div>
                 </div>
