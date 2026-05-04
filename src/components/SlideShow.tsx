@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Provider, useSelector } from 'react-redux';
+import { useSelector, useStore } from 'react-redux';
 
-import DevStateViewer from './DevStateViewer';
-import { store } from '../store/store';
+import EntryLoader from './EntryLoader';
 
 import type { RootState } from '../store/store';
 
@@ -26,8 +25,8 @@ interface SlideShowProps {
 }
 
 const SlideShowInner: React.FC = () => {
+    const store = useStore<RootState>();
     const [flatIndex, setFlatIndex] = useState<number>(0);
-    const [maxFlatIndex, setMaxFlatIndex] = useState<number>(0);
 
     const userAnswers = useSelector((state: RootState) => state.userAnswers);
 
@@ -215,6 +214,22 @@ const SlideShowInner: React.FC = () => {
 
     const totalSlides = subjects.reduce((sum, s) => sum + s.slides.length, 0);
 
+    const [maxFlatIndex, setMaxFlatIndex] = useState<number>(() => {
+        const answers = store.getState().userAnswers;
+        let max = 0;
+        let offset = 0;
+        for (const subject of subjects) {
+            for (let i = 0; i < subject.slides.length; i++) {
+                const key = subject.slides[i].requiresAnswer;
+                if (key && answers[key] !== null) {
+                    max = Math.max(max, offset + i);
+                }
+            }
+            offset += subject.slides.length;
+        }
+        return max;
+    });
+
     // Derive subjectIndex and slideIndex from flatIndex
     let subjectIndex = 0;
     let slideIndex = flatIndex;
@@ -352,7 +367,6 @@ const SlideShowInner: React.FC = () => {
 
     return (
         <>
-            <DevStateViewer />
             <div className="w-full h-screen flex flex-col bg-gray-100">
                 <nav className="flex gap-2 p-2 bg-white shadow-sm z-20" dir="rtl">
                     {subjects.map((subject, i) => {
@@ -408,7 +422,7 @@ const SlideShowInner: React.FC = () => {
                         }`}
                     >
                         {loadedSlide && loadedSlide.name === currentSlide.name && (
-                            <loadedSlide.Component {...currentProps} onAdvance={onAdvance} />
+                            <loadedSlide.Component {...currentProps} onAdvance={onAdvance} isFirstVisit={isFirstVisit} />
                         )}
                     </div>
                 </div>
@@ -419,9 +433,9 @@ const SlideShowInner: React.FC = () => {
 
 const SlideShow: React.FC<SlideShowProps> = () => {
     return (
-        <Provider store={store}>
+        <EntryLoader>
             <SlideShowInner />
-        </Provider>
+        </EntryLoader>
     );
 };
 

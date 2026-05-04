@@ -3,10 +3,16 @@ import SecurityContext from '../components/SecurityContext';
 
 import type { StepComponent } from '../types/step';
 
-const OctoberContext: React.FC<StepComponent> = ({ step }) => {
+interface OctoberContextProps extends StepComponent {
+    onAdvance?: () => void;
+}
+
+const OctoberContext: React.FC<OctoberContextProps> = ({ step, onAdvance }) => {
     return (
         <>
-            {step === 1 && <AnimatedDiamondText text="ובהקשר ה-7.10" />}
+            {step === 1 && (
+                <AnimatedDiamondText text="ובהקשר ה-7.10" onComplete={onAdvance} />
+            )}
             {step === 2 && (
                 <SecurityContext
                     titleType="TitleSideLine"
