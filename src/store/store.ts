@@ -1,12 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import { createPersistMiddleware } from './persistMiddleware';
 import userAnswersReducer from './userAnswersSlice';
 
-export const store = configureStore({
-    reducer: {
-        userAnswers: userAnswersReducer,
-    },
-});
+export const createStore = (userId: string) =>
+    configureStore({
+        reducer: {
+            userAnswers: userAnswersReducer,
+        },
+        middleware: (getDefault) => getDefault().concat(createPersistMiddleware(userId)),
+    });
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export type AppStore = ReturnType<typeof createStore>;
+export type RootState = ReturnType<AppStore['getState']>;
+export type AppDispatch = AppStore['dispatch'];

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Provider, useSelector } from 'react-redux';
+import { useSelector, useStore } from 'react-redux';
 
-import { store } from '../store/store';
+import EntryLoader from './EntryLoader';
 
 import type { RootState } from '../store/store';
 
@@ -24,8 +24,8 @@ interface SlideShowProps {
 }
 
 const SlideShowInner: React.FC = () => {
+    const store = useStore<RootState>();
     const [flatIndex, setFlatIndex] = useState<number>(0);
-    const [maxFlatIndex, setMaxFlatIndex] = useState<number>(0);
 
     const userAnswers = useSelector((state: RootState) => state.userAnswers);
 
@@ -157,7 +157,7 @@ const SlideShowInner: React.FC = () => {
         },
         {
             name: 'מסתורין',
-            revealAt: 0,
+            revealAt: 2,
             slides: [
                 { name: 'MysteryQuestion', requiresAnswer: 'mysteryCandidateRating' },
                 { name: 'MysteryResultsIntro' },
@@ -180,8 +180,8 @@ const SlideShowInner: React.FC = () => {
             ],
         },
         {
-            name: 'קבלת החלטות',
-            revealAt: 0,
+            name: 'ניסוח',
+            revealAt: 3,
             slides: [
                 { name: 'LossAversion', requiresAnswer: 'lossAversionAccept' },
                 { name: 'PrimeMinisterDisease', requiresAnswer: 'primeMinisterDiseaseChoice' },
@@ -202,6 +202,22 @@ const SlideShowInner: React.FC = () => {
     ];
 
     const totalSlides = subjects.reduce((sum, s) => sum + s.slides.length, 0);
+
+    const [maxFlatIndex, setMaxFlatIndex] = useState<number>(() => {
+        const answers = store.getState().userAnswers;
+        let max = 0;
+        let offset = 0;
+        for (const subject of subjects) {
+            for (let i = 0; i < subject.slides.length; i++) {
+                const key = subject.slides[i].requiresAnswer;
+                if (key && answers[key] !== null) {
+                    max = Math.max(max, offset + i);
+                }
+            }
+            offset += subject.slides.length;
+        }
+        return max;
+    });
 
     // Derive subjectIndex and slideIndex from flatIndex
     let subjectIndex = 0;
@@ -348,9 +364,9 @@ const SlideShowInner: React.FC = () => {
 
 const SlideShow: React.FC<SlideShowProps> = () => {
     return (
-        <Provider store={store}>
+        <EntryLoader>
             <SlideShowInner />
-        </Provider>
+        </EntryLoader>
     );
 };
 

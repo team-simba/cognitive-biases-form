@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-interface UserAnswersState {
+export interface UserAnswersState {
     fortuneWheel: 15 | 65 | null;
     africanCountries: number | null;
     plumberProbability: number | null;
@@ -22,7 +22,7 @@ interface UserAnswersState {
     mirrorOwnSameChoice: boolean | null;
 }
 
-const initialState: UserAnswersState = {
+export const userAnswersInitialState: UserAnswersState = {
     fortuneWheel: null,
     africanCountries: null,
     plumberProbability: null,
@@ -44,8 +44,11 @@ const initialState: UserAnswersState = {
 
 const userAnswersSlice = createSlice({
     name: 'userAnswers',
-    initialState,
+    initialState: userAnswersInitialState,
     reducers: {
+        hydrate(_state, action: PayloadAction<UserAnswersState>) {
+            return action.payload;
+        },
         setFortuneWheel(state, action: PayloadAction<15 | 65>) {
             state.fortuneWheel = action.payload;
         },
@@ -101,6 +104,7 @@ const userAnswersSlice = createSlice({
 });
 
 export const {
+    hydrate,
     setFortuneWheel,
     setafricanCountries,
     setPlumberProbability,
