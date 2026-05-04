@@ -11,6 +11,7 @@ interface ComponentItem {
     requiresAnswer?: keyof RootState['userAnswers'];
     blockNavigation?: boolean;
     autoAdvanceAfter?: number;
+    overlay?: boolean; // when true, render the previous slide underneath with a backdrop
 }
 
 interface Subject {
@@ -84,6 +85,7 @@ const SlideShowInner: React.FC = () => {
                     name: 'AnchoringGraph',
                     props: { dataFor15: data15, dataFor65: data65, step: 2 },
                 },
+                // { name: 'AnchoringExamplePopup', overlay: true },
                 { name: 'AnchoringSecuritySection', props: { step: 1 } },
                 { name: 'AnchoringSecuritySection', props: { step: 2 } },
             ],
@@ -106,6 +108,7 @@ const SlideShowInner: React.FC = () => {
                 { name: 'AvailabilityQuestion', requiresAnswer: 'availabilityAnswer' },
                 { name: 'AvailabilityGraph', props: { elephant: elephant, cigar: cigar }},
                 { name: 'AvailabilityExplaination'},
+                // { name: 'AvailabilityExamplePopup', overlay: true },
                 { name: 'AvailabilitySecuritySection', props: { step: 1 } },
                 { name: 'AvailabilitySecuritySection', props: { step: 2 } },
             ],
@@ -131,6 +134,9 @@ const SlideShowInner: React.FC = () => {
                 { name: 'FormalLogicQuestion', requiresAnswer: 'formalLogicAnswer' },
                 { name: 'ResultGraph', props: { percentage: 80 } },
                 { name: 'CognitiveBiasLogic2' },
+                // { name: 'LogicExplanationPopup', overlay: true },
+                { name: 'FormalLogicBiasIntro' },
+                // { name: 'FormalLogicExamplePopup', overlay: true },
                 { name: 'OctoberAnimation' },
                 { name: 'LogicInContextOctober' },
             ],
@@ -151,6 +157,7 @@ const SlideShowInner: React.FC = () => {
                     requiresAnswer: 'mirrorOwnSameChoice',
                 },
                 { name: 'MirrorBiasGraph' },
+                // { name: 'MirrorExamplePopup', overlay: true },
                 { name: 'OctoberAnimation' },
                 { name: 'MirrorBiasSecurity' },
             ],
@@ -165,6 +172,7 @@ const SlideShowInner: React.FC = () => {
                     name: 'MysteryGraph',
                     props: { data: mysteryData },
                 },
+                // { name: 'MysteryExamplePopup', overlay: true },
             ],
         },
         {
@@ -175,6 +183,7 @@ const SlideShowInner: React.FC = () => {
                 { name: 'ConfirmationBiasCycle' },
                 { name: 'ConfirmationBiasVenn' },
                 { name: 'ConfirmationBiasDefinition' },
+                // { name: 'ConfirmationExamplePopup', overlay: true },
                 { name: 'OctoberAnimation' },
                 { name: 'ConfirmationBiasSecurity' },
             ],
@@ -188,15 +197,17 @@ const SlideShowInner: React.FC = () => {
                 { name: 'TryAgain', requiresAnswer: 'tryAgainChoice' },
                 { name: 'WhatHappenedHere', props: { dead: dead, save: save } },
                 { name: 'WhatHappenedHereSummary', props: { summary: summary } },
+                // { name: 'LossAversionDidYouKnowPopup', overlay: true },
                 { name: 'OctoberContext', props: { step: 1 } },
                 { name: 'OctoberContext', props: { step: 2 } },
             ],
         },
         {
-            name: 'סיום',
+            name: 'סיכום',
             slides: [
-                { name: 'IntermediateMessage' },
-                { name: 'EndPage' },
+                { name: 'SummaryConclusion' },
+                { name: 'SummaryWhatToDo' },
+                { name: 'SummaryFinalNote' },
             ],
         },
     ];
@@ -302,6 +313,46 @@ const SlideShowInner: React.FC = () => {
         return () => { cancelled = true; };
     }, [currentSlide.name]);
 
+    // For overlay slides, also load the most recent non-overlay slide so it can be
+    // rendered behind the popup with a darkened backdrop.
+    const underlyingItem: ComponentItem | null = (() => {
+        if (!currentSlide.overlay) return null;
+        let probe = flatIndex - 1;
+        while (probe >= 0) {
+            let si = 0;
+            let sli = probe;
+            for (let i = 0; i < subjects.length; i++) {
+                if (sli < subjects[i].slides.length) {
+                    si = i;
+                    break;
+                }
+                sli -= subjects[i].slides.length;
+            }
+            const item = subjects[si].slides[sli];
+            if (!item.overlay) return item;
+            probe -= 1;
+        }
+        return null;
+    })();
+
+    const [loadedUnderlying, setLoadedUnderlying] = useState<{
+        name: string;
+        Component: React.ComponentType<any>;
+    } | null>(null);
+
+    useEffect(() => {
+        if (!underlyingItem) {
+            setLoadedUnderlying(null);
+            return;
+        }
+        let cancelled = false;
+        const targetName = underlyingItem.name;
+        import(`../slides/${targetName}`).then((mod) => {
+            if (!cancelled) setLoadedUnderlying({ name: targetName, Component: mod.default });
+        });
+        return () => { cancelled = true; };
+    }, [underlyingItem?.name]);
+
     const currentProps = currentSlide.props || {};
     const onAdvance = () => navigateTo(Math.min(flatIndex + 1, totalSlides - 1));
 
@@ -350,8 +401,26 @@ const SlideShowInner: React.FC = () => {
                         );
                     })}
                 </nav>
-                <div className="flex-1 flex items-center justify-center">
-                    <div className="w-full h-full flex items-center justify-center transition-all duration-300">
+                <div className="flex-1 flex items-center justify-center relative">
+                    {/* Underlying slide — rendered behind the popup when overlay is true */}
+                    {currentSlide.overlay && loadedUnderlying && underlyingItem && (
+                        <div className="absolute inset-0 pointer-events-none">
+                            <loadedUnderlying.Component
+                                {...(underlyingItem.props || {})}
+                                onAdvance={() => {}}
+                            />
+                        </div>
+                    )}
+                    {/* Backdrop dimming the underlying slide */}
+                    {currentSlide.overlay && (
+                        <div className="absolute inset-0 bg-black/40 z-30" />
+                    )}
+
+                    <div
+                        className={`w-full h-full flex items-center justify-center transition-all duration-300 ${
+                            currentSlide.overlay ? 'relative z-40' : ''
+                        }`}
+                    >
                         {loadedSlide && loadedSlide.name === currentSlide.name && (
                             <loadedSlide.Component {...currentProps} onAdvance={onAdvance} isFirstVisit={isFirstVisit} />
                         )}
